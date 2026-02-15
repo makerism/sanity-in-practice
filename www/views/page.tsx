@@ -3,7 +3,7 @@ import * as Types from '@/lib/types';
 import Sections from '@/ui/sections';
 
 type PageProps = {
-  page: Types.Sanity.Page;
+  page: NonNullable<Types.Sanity.GET_PAGE_BY_SLUG_QUERY_RESULT>;
 };
 
 const PageView: React.FC<PageProps> = (props) => {
