@@ -97,26 +97,23 @@ export type CenteredImage = {
   cta?: LinkWithLabel;
 };
 
-export type Sections = {
-  _type: 'sections';
-  sections?: Array<
-    | ({
-        _key: string;
-      } & CenteredImage)
-    | ({
-        _key: string;
-      } & FullWidthImage)
-    | ({
-        _key: string;
-      } & SplitPane)
-    | ({
-        _key: string;
-      } & TextImage)
-    | ({
-        _key: string;
-      } & UpcomingEvents)
-  >;
-};
+export type Sections = Array<
+  | ({
+      _key: string;
+    } & CenteredImage)
+  | ({
+      _key: string;
+    } & FullWidthImage)
+  | ({
+      _key: string;
+    } & SplitPane)
+  | ({
+      _key: string;
+    } & TextImage)
+  | ({
+      _key: string;
+    } & UpcomingEvents)
+>;
 
 export type RichImage = {
   _type: 'richImage';
@@ -274,6 +271,13 @@ export type Metadata = {
   _type: 'metadata';
   description?: string;
   keywords?: Array<string>;
+  coverImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: 'image';
+  };
 };
 
 export type PageReference = {
@@ -545,3 +549,770 @@ export type AllSanitySchemaTypes =
   | Geopoint;
 
 export declare const internalGroqTypeReferenceTo: unique symbol;
+
+// Source: ../www/lib/sanity/queries.ts
+// Variable: INDEX_PAGES_QUERY
+// Query: *[_type == "page"] | order(publishedAt desc) {   ...,  sections[] {      ...,  _type == "centeredImage" => {    image {        ...,  asset -> {    ...  }    }  },  _type == "fullWidthImage" => {    image {        ...,  asset -> {    ...  }    }  },  _type == "splitPane" => {    firstPane {      ...,      image {          ...,  asset -> {    ...  }      }    },    secondPane {      ...,      image {          ...,  asset -> {    ...  }      }    }  },  _type == "textImage" => {    image {        ...,  asset -> {    ...  }    },    content[] {        ...,  _type == "richImage" => {      ...,  asset -> {    ...  }  }    },  },  }, }
+export type INDEX_PAGES_QUERY_RESULT = Array<{
+  _id: string;
+  _type: 'page';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  metadata: Metadata;
+  sections: Array<
+    | {
+        _key: string;
+        _type: 'centeredImage';
+        heading: string;
+        subheading?: string;
+        image: {
+          asset: {
+            _id: string;
+            _type: 'sanity.imageAsset';
+            _createdAt: string;
+            _updatedAt: string;
+            _rev: string;
+            originalFilename?: string;
+            label?: string;
+            title?: string;
+            description?: string;
+            altText?: string;
+            sha1hash?: string;
+            extension?: string;
+            mimeType?: string;
+            size?: number;
+            assetId?: string;
+            uploadId?: string;
+            path?: string;
+            url?: string;
+            metadata?: SanityImageMetadata;
+            source?: SanityAssetSourceData;
+          } | null;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: 'image';
+        };
+        caption?: string;
+        cta?: LinkWithLabel;
+      }
+    | {
+        _key: string;
+        _type: 'fullWidthImage';
+        heading: string;
+        subheading?: string;
+        image: {
+          asset: {
+            _id: string;
+            _type: 'sanity.imageAsset';
+            _createdAt: string;
+            _updatedAt: string;
+            _rev: string;
+            originalFilename?: string;
+            label?: string;
+            title?: string;
+            description?: string;
+            altText?: string;
+            sha1hash?: string;
+            extension?: string;
+            mimeType?: string;
+            size?: number;
+            assetId?: string;
+            uploadId?: string;
+            path?: string;
+            url?: string;
+            metadata?: SanityImageMetadata;
+            source?: SanityAssetSourceData;
+          } | null;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: 'image';
+        };
+        cta?: LinkWithLabel;
+      }
+    | {
+        _key: string;
+        _type: 'splitPane';
+        firstPane: {
+          eyebrow?: string;
+          heading: string;
+          image: {
+            asset: {
+              _id: string;
+              _type: 'sanity.imageAsset';
+              _createdAt: string;
+              _updatedAt: string;
+              _rev: string;
+              originalFilename?: string;
+              label?: string;
+              title?: string;
+              description?: string;
+              altText?: string;
+              sha1hash?: string;
+              extension?: string;
+              mimeType?: string;
+              size?: number;
+              assetId?: string;
+              uploadId?: string;
+              path?: string;
+              url?: string;
+              metadata?: SanityImageMetadata;
+              source?: SanityAssetSourceData;
+            } | null;
+            media?: unknown; // Unable to locate the referenced type "firstPane.image.media" in schema
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            _type: 'image';
+          };
+        };
+        secondPane: {
+          eyebrow?: string;
+          heading: string;
+          image: {
+            asset: {
+              _id: string;
+              _type: 'sanity.imageAsset';
+              _createdAt: string;
+              _updatedAt: string;
+              _rev: string;
+              originalFilename?: string;
+              label?: string;
+              title?: string;
+              description?: string;
+              altText?: string;
+              sha1hash?: string;
+              extension?: string;
+              mimeType?: string;
+              size?: number;
+              assetId?: string;
+              uploadId?: string;
+              path?: string;
+              url?: string;
+              metadata?: SanityImageMetadata;
+              source?: SanityAssetSourceData;
+            } | null;
+            media?: unknown; // Unable to locate the referenced type "firstPane.image.media" in schema
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            _type: 'image';
+          };
+        };
+      }
+    | {
+        _key: string;
+        _type: 'textImage';
+        heading: string;
+        subheading?: string;
+        content: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: 'span';
+            _key: string;
+          }>;
+          style?: 'normal';
+          listItem?: never;
+          markDefs?: Array<
+            {
+              _key: string;
+            } & Link
+          >;
+          level?: number;
+          _type: 'block';
+          _key: string;
+        }>;
+        image: {
+          asset: {
+            _id: string;
+            _type: 'sanity.imageAsset';
+            _createdAt: string;
+            _updatedAt: string;
+            _rev: string;
+            originalFilename?: string;
+            label?: string;
+            title?: string;
+            description?: string;
+            altText?: string;
+            sha1hash?: string;
+            extension?: string;
+            mimeType?: string;
+            size?: number;
+            assetId?: string;
+            uploadId?: string;
+            path?: string;
+            url?: string;
+            metadata?: SanityImageMetadata;
+            source?: SanityAssetSourceData;
+          } | null;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: 'image';
+        };
+        cta?: LinkWithLabel;
+        orientation: 'imageLeft' | 'imageRight';
+      }
+    | {
+        _key: string;
+        _type: 'upcomingEvents';
+        heading: string;
+        ctaOverride: string;
+      }
+  >;
+}>;
+
+// Source: ../www/lib/sanity/queries.ts
+// Variable: GET_PAGE_BY_SLUG_QUERY
+// Query: *[_type == "page" && slug.current == $slug][0] {   ...,  sections[] {      ...,  _type == "centeredImage" => {    image {        ...,  asset -> {    ...  }    }  },  _type == "fullWidthImage" => {    image {        ...,  asset -> {    ...  }    }  },  _type == "splitPane" => {    firstPane {      ...,      image {          ...,  asset -> {    ...  }      }    },    secondPane {      ...,      image {          ...,  asset -> {    ...  }      }    }  },  _type == "textImage" => {    image {        ...,  asset -> {    ...  }    },    content[] {        ...,  _type == "richImage" => {      ...,  asset -> {    ...  }  }    },  },  }, }
+export type GET_PAGE_BY_SLUG_QUERY_RESULT = {
+  _id: string;
+  _type: 'page';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  metadata: Metadata;
+  sections: Array<
+    | {
+        _key: string;
+        _type: 'centeredImage';
+        heading: string;
+        subheading?: string;
+        image: {
+          asset: {
+            _id: string;
+            _type: 'sanity.imageAsset';
+            _createdAt: string;
+            _updatedAt: string;
+            _rev: string;
+            originalFilename?: string;
+            label?: string;
+            title?: string;
+            description?: string;
+            altText?: string;
+            sha1hash?: string;
+            extension?: string;
+            mimeType?: string;
+            size?: number;
+            assetId?: string;
+            uploadId?: string;
+            path?: string;
+            url?: string;
+            metadata?: SanityImageMetadata;
+            source?: SanityAssetSourceData;
+          } | null;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: 'image';
+        };
+        caption?: string;
+        cta?: LinkWithLabel;
+      }
+    | {
+        _key: string;
+        _type: 'fullWidthImage';
+        heading: string;
+        subheading?: string;
+        image: {
+          asset: {
+            _id: string;
+            _type: 'sanity.imageAsset';
+            _createdAt: string;
+            _updatedAt: string;
+            _rev: string;
+            originalFilename?: string;
+            label?: string;
+            title?: string;
+            description?: string;
+            altText?: string;
+            sha1hash?: string;
+            extension?: string;
+            mimeType?: string;
+            size?: number;
+            assetId?: string;
+            uploadId?: string;
+            path?: string;
+            url?: string;
+            metadata?: SanityImageMetadata;
+            source?: SanityAssetSourceData;
+          } | null;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: 'image';
+        };
+        cta?: LinkWithLabel;
+      }
+    | {
+        _key: string;
+        _type: 'splitPane';
+        firstPane: {
+          eyebrow?: string;
+          heading: string;
+          image: {
+            asset: {
+              _id: string;
+              _type: 'sanity.imageAsset';
+              _createdAt: string;
+              _updatedAt: string;
+              _rev: string;
+              originalFilename?: string;
+              label?: string;
+              title?: string;
+              description?: string;
+              altText?: string;
+              sha1hash?: string;
+              extension?: string;
+              mimeType?: string;
+              size?: number;
+              assetId?: string;
+              uploadId?: string;
+              path?: string;
+              url?: string;
+              metadata?: SanityImageMetadata;
+              source?: SanityAssetSourceData;
+            } | null;
+            media?: unknown; // Unable to locate the referenced type "firstPane.image.media" in schema
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            _type: 'image';
+          };
+        };
+        secondPane: {
+          eyebrow?: string;
+          heading: string;
+          image: {
+            asset: {
+              _id: string;
+              _type: 'sanity.imageAsset';
+              _createdAt: string;
+              _updatedAt: string;
+              _rev: string;
+              originalFilename?: string;
+              label?: string;
+              title?: string;
+              description?: string;
+              altText?: string;
+              sha1hash?: string;
+              extension?: string;
+              mimeType?: string;
+              size?: number;
+              assetId?: string;
+              uploadId?: string;
+              path?: string;
+              url?: string;
+              metadata?: SanityImageMetadata;
+              source?: SanityAssetSourceData;
+            } | null;
+            media?: unknown; // Unable to locate the referenced type "firstPane.image.media" in schema
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            _type: 'image';
+          };
+        };
+      }
+    | {
+        _key: string;
+        _type: 'textImage';
+        heading: string;
+        subheading?: string;
+        content: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: 'span';
+            _key: string;
+          }>;
+          style?: 'normal';
+          listItem?: never;
+          markDefs?: Array<
+            {
+              _key: string;
+            } & Link
+          >;
+          level?: number;
+          _type: 'block';
+          _key: string;
+        }>;
+        image: {
+          asset: {
+            _id: string;
+            _type: 'sanity.imageAsset';
+            _createdAt: string;
+            _updatedAt: string;
+            _rev: string;
+            originalFilename?: string;
+            label?: string;
+            title?: string;
+            description?: string;
+            altText?: string;
+            sha1hash?: string;
+            extension?: string;
+            mimeType?: string;
+            size?: number;
+            assetId?: string;
+            uploadId?: string;
+            path?: string;
+            url?: string;
+            metadata?: SanityImageMetadata;
+            source?: SanityAssetSourceData;
+          } | null;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: 'image';
+        };
+        cta?: LinkWithLabel;
+        orientation: 'imageLeft' | 'imageRight';
+      }
+    | {
+        _key: string;
+        _type: 'upcomingEvents';
+        heading: string;
+        ctaOverride: string;
+      }
+  >;
+} | null;
+
+// Source: ../www/lib/sanity/queries.ts
+// Variable: INDEX_ARTICLES_QUERY
+// Query: *[_type == "article"] | order(publishedAt desc) {   ...,  coverImage {      ...,  asset -> {    ...  }  },  content[] {      ...,  _type == "richImage" => {      ...,  asset -> {    ...  }  }  }, }
+export type INDEX_ARTICLES_QUERY_RESULT = Array<{
+  _id: string;
+  _type: 'article';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  publishedAt: string;
+  coverImage: {
+    asset: {
+      _id: string;
+      _type: 'sanity.imageAsset';
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      originalFilename?: string;
+      label?: string;
+      title?: string;
+      description?: string;
+      altText?: string;
+      sha1hash?: string;
+      extension?: string;
+      mimeType?: string;
+      size?: number;
+      assetId?: string;
+      uploadId?: string;
+      path?: string;
+      url?: string;
+      metadata?: SanityImageMetadata;
+      source?: SanityAssetSourceData;
+    } | null;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: 'image';
+  };
+  excerpt?: RichTextSimple;
+  content: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: 'span';
+          _key: string;
+        }>;
+        style?: 'h2' | 'h3' | 'h4' | 'normal';
+        listItem?: 'bullet' | 'number';
+        markDefs?: Array<
+          {
+            _key: string;
+          } & Link
+        >;
+        level?: number;
+        _type: 'block';
+        _key: string;
+      }
+    | {
+        _key: string;
+        _type: 'richImage';
+        asset: {
+          _id: string;
+          _type: 'sanity.imageAsset';
+          _createdAt: string;
+          _updatedAt: string;
+          _rev: string;
+          originalFilename?: string;
+          label?: string;
+          title?: string;
+          description?: string;
+          altText?: string;
+          sha1hash?: string;
+          extension?: string;
+          mimeType?: string;
+          size?: number;
+          assetId?: string;
+          uploadId?: string;
+          path?: string;
+          url?: string;
+          metadata?: SanityImageMetadata;
+          source?: SanityAssetSourceData;
+        } | null;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        caption?: string;
+      }
+  >;
+  metadata?: Metadata;
+}>;
+
+// Source: ../www/lib/sanity/queries.ts
+// Variable: GET_ARTICLE_BY_SLUG_QUERY
+// Query: *[_type == "article" && slug.current == $slug][0] {   ...,  coverImage {      ...,  asset -> {    ...  }  },  content[] {      ...,  _type == "richImage" => {      ...,  asset -> {    ...  }  }  }, }
+export type GET_ARTICLE_BY_SLUG_QUERY_RESULT = {
+  _id: string;
+  _type: 'article';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  publishedAt: string;
+  coverImage: {
+    asset: {
+      _id: string;
+      _type: 'sanity.imageAsset';
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      originalFilename?: string;
+      label?: string;
+      title?: string;
+      description?: string;
+      altText?: string;
+      sha1hash?: string;
+      extension?: string;
+      mimeType?: string;
+      size?: number;
+      assetId?: string;
+      uploadId?: string;
+      path?: string;
+      url?: string;
+      metadata?: SanityImageMetadata;
+      source?: SanityAssetSourceData;
+    } | null;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: 'image';
+  };
+  excerpt?: RichTextSimple;
+  content: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: 'span';
+          _key: string;
+        }>;
+        style?: 'h2' | 'h3' | 'h4' | 'normal';
+        listItem?: 'bullet' | 'number';
+        markDefs?: Array<
+          {
+            _key: string;
+          } & Link
+        >;
+        level?: number;
+        _type: 'block';
+        _key: string;
+      }
+    | {
+        _key: string;
+        _type: 'richImage';
+        asset: {
+          _id: string;
+          _type: 'sanity.imageAsset';
+          _createdAt: string;
+          _updatedAt: string;
+          _rev: string;
+          originalFilename?: string;
+          label?: string;
+          title?: string;
+          description?: string;
+          altText?: string;
+          sha1hash?: string;
+          extension?: string;
+          mimeType?: string;
+          size?: number;
+          assetId?: string;
+          uploadId?: string;
+          path?: string;
+          url?: string;
+          metadata?: SanityImageMetadata;
+          source?: SanityAssetSourceData;
+        } | null;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        caption?: string;
+      }
+  >;
+  metadata?: Metadata;
+} | null;
+
+// Source: ../www/lib/sanity/queries.ts
+// Variable: GET_SETTINGS_QUERY
+// Query: *[_type == "settings" && _id == "settings"][0] {   ...,  activeAnnouncement -> {      ...,  content[] {      ...,  _type == "richImage" => {      ...,  asset -> {    ...  }  }  },  }, }
+export type GET_SETTINGS_QUERY_RESULT = {
+  _id: 'settings';
+  _type: 'settings';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description?: string;
+  favicon?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: 'image';
+  };
+  activeAnnouncement: {
+    _id: string;
+    _type: 'announcement';
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title?: string;
+    message: RichTextBase;
+    link?: Link;
+    content: null;
+  } | null;
+} | null;
+
+// Source: ../www/lib/sanity/queries.ts
+// Variable: INDEX_EVENTS_QUERY
+// Query: *[_type == "event"] | order(startsAt desc) {   ...,  coverImage {      ...,  asset -> {    ...  }  } }
+export type INDEX_EVENTS_QUERY_RESULT = Array<{
+  _id: string;
+  _type: 'event';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  metadata: Metadata;
+  startsAt: string;
+  endsAt: string;
+  location?: string;
+  lumaEventId: string;
+  categories?: Array<
+    {
+      _key: string;
+    } & EventCategoryReference
+  >;
+  description?: string;
+  coverImage: {
+    asset: {
+      _id: string;
+      _type: 'sanity.imageAsset';
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      originalFilename?: string;
+      label?: string;
+      title?: string;
+      description?: string;
+      altText?: string;
+      sha1hash?: string;
+      extension?: string;
+      mimeType?: string;
+      size?: number;
+      assetId?: string;
+      uploadId?: string;
+      path?: string;
+      url?: string;
+      metadata?: SanityImageMetadata;
+      source?: SanityAssetSourceData;
+    } | null;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: 'image';
+  };
+}>;
+
+// Source: ../www/lib/sanity/queries.ts
+// Variable: GET_EVENT_BY_SLUG_QUERY
+// Query: *[_type == "event" && slug.current == $slug][0] {   ...,  coverImage {      ...,  asset -> {    ...  }  } }
+export type GET_EVENT_BY_SLUG_QUERY_RESULT = {
+  _id: string;
+  _type: 'event';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  metadata: Metadata;
+  startsAt: string;
+  endsAt: string;
+  location?: string;
+  lumaEventId: string;
+  categories?: Array<
+    {
+      _key: string;
+    } & EventCategoryReference
+  >;
+  description?: string;
+  coverImage: {
+    asset: {
+      _id: string;
+      _type: 'sanity.imageAsset';
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      originalFilename?: string;
+      label?: string;
+      title?: string;
+      description?: string;
+      altText?: string;
+      sha1hash?: string;
+      extension?: string;
+      mimeType?: string;
+      size?: number;
+      assetId?: string;
+      uploadId?: string;
+      path?: string;
+      url?: string;
+      metadata?: SanityImageMetadata;
+      source?: SanityAssetSourceData;
+    } | null;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: 'image';
+  };
+} | null;
+
+// Query TypeMap
+import '@sanity/client';
+declare module '@sanity/client' {
+  interface SanityQueries {
+    '*[_type == "page"] | order(publishedAt desc) { \n  ...,\n  sections[] {\n    \n  ...,\n  _type == "centeredImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    }\n  },\n  _type == "fullWidthImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    }\n  },\n  _type == "splitPane" => {\n    firstPane {\n      ...,\n      image {\n        \n  ...,\n  asset -> {\n    ...\n  }\n\n      }\n    },\n    secondPane {\n      ...,\n      image {\n        \n  ...,\n  asset -> {\n    ...\n  }\n\n      }\n    }\n  },\n  _type == "textImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    },\n    content[] {\n      \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  }\n\n    },\n  },\n\n  },\n }': INDEX_PAGES_QUERY_RESULT;
+    '*[_type == "page" && slug.current == $slug][0] { \n  ...,\n  sections[] {\n    \n  ...,\n  _type == "centeredImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    }\n  },\n  _type == "fullWidthImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    }\n  },\n  _type == "splitPane" => {\n    firstPane {\n      ...,\n      image {\n        \n  ...,\n  asset -> {\n    ...\n  }\n\n      }\n    },\n    secondPane {\n      ...,\n      image {\n        \n  ...,\n  asset -> {\n    ...\n  }\n\n      }\n    }\n  },\n  _type == "textImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    },\n    content[] {\n      \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  }\n\n    },\n  },\n\n  },\n }': GET_PAGE_BY_SLUG_QUERY_RESULT;
+    '*[_type == "article"] | order(publishedAt desc) { \n  ...,\n  coverImage {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  content[] {\n    \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  }\n\n  },\n }': INDEX_ARTICLES_QUERY_RESULT;
+    '*[_type == "article" && slug.current == $slug][0] { \n  ...,\n  coverImage {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  content[] {\n    \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  }\n\n  },\n }': GET_ARTICLE_BY_SLUG_QUERY_RESULT;
+    '*[_type == "settings" && _id == "settings"][0] { \n  ...,\n  activeAnnouncement -> {\n    \n  ...,\n  content[] {\n    \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  }\n\n  },\n\n  },\n }': GET_SETTINGS_QUERY_RESULT;
+    '*[_type == "event"] | order(startsAt desc) { \n  ...,\n  coverImage {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  }\n }': INDEX_EVENTS_QUERY_RESULT;
+    '*[_type == "event" && slug.current == $slug][0] { \n  ...,\n  coverImage {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  }\n }': GET_EVENT_BY_SLUG_QUERY_RESULT;
+  }
+}

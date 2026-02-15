@@ -1,7 +1,7 @@
 import * as Sanity from '@sanity/client';
 import * as Fs from 'node:fs';
 import * as Path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import * as NodeUrl from 'node:url';
 
 import * as Person from './mock/person';
 import * as Tag from './mock/tag';
@@ -48,7 +48,11 @@ const COUNTS = {
 const range = (count: number) => Array.from({ length: count }, (_, i) => i);
 
 const uploadImages = async () => {
-  const imagesDir = Path.join(Path.dirname(fileURLToPath(import.meta.url)), 'mock', 'images');
+  const imagesDir = Path.join(
+    Path.dirname(NodeUrl.fileURLToPath(import.meta.url)),
+    'mock',
+    'images',
+  );
 
   if (!Fs.existsSync(imagesDir)) {
     console.warn('No mock/images directory found. Skipping image upload.');
@@ -62,10 +66,24 @@ const uploadImages = async () => {
     return [];
   }
 
-  console.log(`Uploading ${files.length} images...`);
+  // Check which images already exist by originalFilename
+  const existingAssets = await client.fetch<{ _id: string; originalFilename: string }[]>(
+    `*[_type == "sanity.imageAsset" && originalFilename in $filenames]{ _id, originalFilename }`,
+    { filenames: files },
+  );
+  const existingByName = new Map(existingAssets.map((a) => [a.originalFilename, a._id]));
+
+  console.log(`Uploading images... (${existingByName.size}/${files.length} already exist)`);
   const assets: { filename: string; assetId: string }[] = [];
 
   for (const file of files) {
+    const existing = existingByName.get(file);
+    if (existing) {
+      assets.push({ filename: file, assetId: existing });
+      console.log(`  ⊘ ${file} → ${existing} (already uploaded)`);
+      continue;
+    }
+
     const filePath = Path.join(imagesDir, file);
     const asset = await client.assets.upload('image', Fs.createReadStream(filePath), {
       filename: file,

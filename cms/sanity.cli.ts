@@ -12,4 +12,9 @@ export default defineCliConfig({
      */
     autoUpdates: true,
   },
+  typegen: {
+    path: '../www/lib/sanity/queries.ts',
+    schema: './schema.json',
+    generates: './sanity.types.ts',
+  },
 });

@@ -4,20 +4,13 @@ const Sections = Sanity.defineType({
   name: 'sections',
   title: 'Sections',
   description: 'Sections for the site',
-  type: 'object',
-  fields: [
-    {
-      name: 'sections',
-      title: 'Sections',
-      type: 'array',
-      of: [
-        { type: 'centeredImage' },
-        { type: 'fullWidthImage' },
-        { type: 'splitPane' },
-        { type: 'textImage' },
-        { type: 'upcomingEvents' },
-      ],
-    },
+  type: 'array',
+  of: [
+    { type: 'centeredImage' },
+    { type: 'fullWidthImage' },
+    { type: 'splitPane' },
+    { type: 'textImage' },
+    { type: 'upcomingEvents' },
   ],
 });
 

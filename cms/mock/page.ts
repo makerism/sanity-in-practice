@@ -12,9 +12,9 @@ type SectionType =
   | 'upcomingEvents';
 
 const PAGE_CONFIGS: { title: string; sections: SectionType[] }[] = [
-  { title: 'Home', sections: ['centeredImage', 'textImage', 'splitPane', 'upcomingEvents'] },
+  { title: 'Home', sections: ['centeredImage', 'upcomingEvents', 'splitPane', 'textImage'] },
   { title: 'About', sections: ['fullWidthImage', 'textImage', 'splitPane'] },
-  { title: 'Events', sections: ['centeredImage', 'upcomingEvents'] },
+  { title: 'Resources', sections: ['textImage', 'fullWidthImage', 'splitPane'] },
 ];
 
 const pickImage = (assetIds: string[], index: number) =>
@@ -54,12 +54,9 @@ export const mock = (params: Params = {}): Utils.MockDoc<Sanity.Page> => {
     title,
     slug: Utils.slugify(title),
     metadata: Utils.makeMetadata(faker.lorem.sentence(), faker.lorem.words(4).split(' ')),
-    sections: {
-      _type: 'sections',
-      sections: config.sections.map((type, i) =>
-        buildSection(type, imageAssetIds, pageIndex * 4 + i),
-      ),
-    },
+    sections: config.sections.map((type, i) =>
+      buildSection(type, imageAssetIds, pageIndex * 4 + i),
+    ),
     ...overrides,
   };
 };

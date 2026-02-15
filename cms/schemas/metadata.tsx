@@ -25,6 +25,11 @@ const Metadata = Sanity.defineType({
       type: 'array',
       of: [{ type: 'string' }],
     },
+    {
+      name: 'coverImage',
+      title: 'Cover Image',
+      type: 'image',
+    },
   ],
 });
 

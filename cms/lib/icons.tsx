@@ -13,7 +13,7 @@ export {
   PersonStanding as Person,
   Megaphone as Announcement,
   Newspaper as Article,
-  Settings as SettingsIcon,
+  Settings as Settings,
   SquareSplitHorizontal as SplitPane,
   Tag as Tag,
 } from 'lucide-react';
