@@ -1,19 +1,27 @@
 import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { visionTool } from '@sanity/vision';
+import { media } from 'sanity-plugin-media';
 
-import schemas from './schemas';
+import Schemas from './schemas';
+import Structure from './lib/structure';
 
 export default defineConfig({
   name: 'default',
-  title: 'sanity-in-practice',
+  title: 'Sanity in Practice',
 
   projectId: 'xyk2gm36',
   dataset: 'production',
 
-  plugins: [structureTool(), visionTool()],
+  plugins: [
+    structureTool({
+      structure: Structure,
+    }),
+    visionTool(),
+    media(),
+  ],
 
   schema: {
-    types: schemas,
+    types: Schemas,
   },
 });
