@@ -10,7 +10,8 @@
     "build": "sanity build",
     "deploy": "sanity deploy",
     "deploy-graphql": "sanity graphql deploy",
-    "typegen": "sanity schema extract --enforce-required-fields && sanity typegen generate"
+    "typegen": "sanity schema extract --enforce-required-fields && sanity typegen generate",
+    "seed": "tsx --env-file=.env.local seed.ts"
   },
   "keywords": [
     "sanity"
@@ -25,10 +26,14 @@
     "styled-components": "^6.1.18"
   },
   "devDependencies": {
+    "@faker-js/faker": "^10.3.0",
+    "@sanity/client": "^7.14.1",
     "@sanity/eslint-config-studio": "^6.0.0",
+    "@types/node": "^25.2.3",
     "@types/react": "^19.1",
     "eslint": "^9.28",
     "prettier": "^3.5",
+    "tsx": "^4.21.0",
     "typescript": "^5.8"
   }
 }

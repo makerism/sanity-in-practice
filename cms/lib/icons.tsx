@@ -1,27 +1,19 @@
-import {
-  Asterisk,
-  BookOpenText,
-  Calendar1,
-  CalendarSearch,
-  LayoutList,
-  Image as ImageIcon,
-  Link as LinkIcon,
-  PersonStanding,
-  Megaphone,
-  Newspaper,
+export {
+  Asterisk as Metadata,
+  BookOpenText as Page,
+  Calendar1 as Event,
+  CalendarSearch as EventCategory,
+  CalendarSync as UpcomingEvents,
+  Fullscreen as FullWidthImage,
+  GalleryHorizontal as CenteredImage,
+  LayoutList as Richtext,
+  LayoutList as TextImage,
+  Image as RichImage,
+  Link as Link,
+  PersonStanding as Person,
+  Megaphone as Announcement,
+  Newspaper as Article,
   Settings as SettingsIcon,
-  Tag as TagIcon,
+  SquareSplitHorizontal as SplitPane,
+  Tag as Tag,
 } from 'lucide-react';
-
-export const Announcement = Megaphone;
-export const Article = Newspaper;
-export const Event = Calendar1;
-export const EventCategory = CalendarSearch;
-export const Metadata = Asterisk;
-export const Link = LinkIcon;
-export const Page = BookOpenText;
-export const Person = PersonStanding;
-export const RichImage = ImageIcon;
-export const Richtext = LayoutList;
-export const Settings = SettingsIcon;
-export const Tag = TagIcon;

@@ -1,3 +1,4 @@
+import * as Icons from '../../lib/icons';
 import * as Sanity from 'sanity';
 
 const TextImage = Sanity.defineType({
@@ -5,6 +6,16 @@ const TextImage = Sanity.defineType({
   title: 'Text & Image',
   description: 'A text & image section',
   type: 'object',
+  icon: Icons.TextImage,
+  preview: {
+    select: {
+      heading: 'heading',
+      image: 'image',
+    },
+    prepare({ heading, image }) {
+      return { title: 'Text & Image', subtitle: heading, media: image };
+    },
+  },
   fields: [
     {
       name: 'heading',
@@ -40,7 +51,10 @@ const TextImage = Sanity.defineType({
       title: 'Orientation',
       type: 'string',
       options: {
-        list: ['imageLeft', 'imageRight'],
+        list: [
+          { title: 'Image Left', value: 'imageLeft' },
+          { title: 'Image Right', value: 'imageRight' },
+        ],
       },
       initialValue: 'imageLeft',
       validation: (Rule) => Rule.required(),

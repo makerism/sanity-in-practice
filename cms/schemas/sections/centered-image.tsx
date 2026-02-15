@@ -1,3 +1,4 @@
+import * as Icons from '../../lib/icons';
 import * as Sanity from 'sanity';
 
 const CenteredImage = Sanity.defineType({
@@ -5,6 +6,16 @@ const CenteredImage = Sanity.defineType({
   title: 'Centered Image',
   description: 'A centered image section',
   type: 'object',
+  icon: Icons.CenteredImage,
+  preview: {
+    select: {
+      heading: 'heading',
+      image: 'image',
+    },
+    prepare({ heading, image }) {
+      return { title: 'Centered Image', subtitle: heading, media: image };
+    },
+  },
   fields: [
     {
       title: 'Heading',
