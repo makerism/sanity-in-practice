@@ -1,12 +1,41 @@
 import * as Next from 'next';
+import * as Sanity from '@/lib/sanity';
 
 import Navigation from '@/ui/navigation';
 
 import './globals.css';
 
-export const metadata: Next.Metadata = {
-  title: 'Sanity in Practice · Demo Site',
-  description: 'A demo site for the Sanity in Practice course',
+export const generateMetadata = async (): Promise<Next.Metadata> => {
+  const globals = await Sanity.Globals.get();
+
+  const formatFavicon = (
+    favicon: NonNullable<typeof globals.settings.favicon>,
+    width: number,
+    height: number,
+  ) => {
+    return {
+      url: Sanity.urlForImage(favicon).size(width, height).format('png').url(),
+      sizes: `${width}x${height}`,
+      type: 'image/png',
+    };
+  };
+
+  const getIcons = () => {
+    if (!globals.settings.favicon) return undefined;
+    return {
+      icon: [
+        formatFavicon(globals.settings.favicon, 32, 32),
+        formatFavicon(globals.settings.favicon, 16, 16),
+      ],
+      apple: [formatFavicon(globals.settings.favicon, 180, 180)],
+    };
+  };
+
+  return {
+    title: globals.settings.title,
+    description: globals.settings.description,
+    icons: getIcons(),
+  };
 };
 
 const RootLayout: React.FC<React.PropsWithChildren> = (props) => {
