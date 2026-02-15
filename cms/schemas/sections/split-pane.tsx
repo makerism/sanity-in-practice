@@ -1,3 +1,4 @@
+import * as Icons from '../../lib/icons';
 import * as Sanity from 'sanity';
 
 const PaneFields = [
@@ -25,6 +26,19 @@ const SplitPane = Sanity.defineType({
   title: 'Split Pane',
   description: 'A split pane section',
   type: 'object',
+  icon: Icons.SplitPane,
+  preview: {
+    select: {
+      firstPaneHeading: 'firstPane.heading',
+      secondPaneHeading: 'secondPane.heading',
+    },
+    prepare({ firstPaneHeading, secondPaneHeading }) {
+      return {
+        title: 'Split Pane',
+        subtitle: `${firstPaneHeading} / ${secondPaneHeading}`,
+      };
+    },
+  },
   fields: [
     {
       name: 'firstPane',

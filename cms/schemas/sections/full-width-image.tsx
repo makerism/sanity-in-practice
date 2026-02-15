@@ -1,3 +1,4 @@
+import * as Icons from '../../lib/icons';
 import * as Sanity from 'sanity';
 
 const FullWidthImage = Sanity.defineType({
@@ -5,6 +6,16 @@ const FullWidthImage = Sanity.defineType({
   title: 'Full Width Image',
   description: 'A full width image section',
   type: 'object',
+  icon: Icons.FullWidthImage,
+  preview: {
+    select: {
+      heading: 'heading',
+      image: 'image',
+    },
+    prepare({ heading, image }) {
+      return { title: 'Full Width Image', subtitle: heading, media: image };
+    },
+  },
   fields: [
     {
       title: 'Heading',
