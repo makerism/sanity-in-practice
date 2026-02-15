@@ -143,6 +143,14 @@ Ties together many concepts. Walk through:
 
 ---
 
+## Schema: Event
+
+[`cms/schemas/event.tsx`](../cms/schemas/event.tsx)
+
+Similar structure to Article — groups, preview, metadata. Key differences: uses `datetime` instead of `date` (events need times), has a `location` field, and references `eventCategory` documents instead of tags. Walk through how the category references connect back to the document types defined earlier.
+
+---
+
 ## Pattern: Sections (Page Builder)
 
 [`cms/schemas/sections/`](../cms/schemas/sections/)
@@ -154,6 +162,14 @@ The [`sections/index.ts`](../cms/schemas/sections/index.ts) defines the array ty
 Point out [`upcomingEvents`](../cms/schemas/sections/upcoming-events.tsx) — it has just a heading and CTA override. No event data in the schema. The front-end detects the presence of this section type and fetches event data dynamically. This is a good pattern for sections that need live data.
 
 Then in [`page.tsx`](../cms/schemas/page.tsx), it's just `{ type: 'sections' }`. Editors compose pages from a menu of section types.
+
+---
+
+## Schema: Page
+
+[`cms/schemas/page.tsx`](../cms/schemas/page.tsx)
+
+The payoff of the sections pattern. A page document is mostly just a title, slug, and `{ type: 'sections' }`. Editors compose pages from the menu of section types defined above. Has `metadata` in a settings group for SEO.
 
 ---
 
