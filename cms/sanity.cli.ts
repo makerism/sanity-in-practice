@@ -15,6 +15,6 @@ export default defineCliConfig({
   typegen: {
     path: '../www/lib/sanity/queries.ts',
     schema: './schema.json',
-    generates: './sanity.types.ts',
+    generates: '../www/lib/sanity/types.ts',
   },
 });

@@ -1,5 +1,5 @@
-import * as Sanity from '../../cms/sanity.types';
-export * as Sanity from '../../cms/sanity.types';
+import * as Sanity from '@/lib/sanity/types';
+export * as Sanity from '@/lib/sanity/types';
 
 export type Globals = {
   settings: NonNullable<Sanity.GET_SETTINGS_QUERY_RESULT>;

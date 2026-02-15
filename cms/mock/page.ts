@@ -1,4 +1,4 @@
-import * as Sanity from '../sanity.types';
+import * as Sanity from '../../www/lib/sanity/types';
 import * as Sections from './sections';
 import * as Utils from './utils';
 
