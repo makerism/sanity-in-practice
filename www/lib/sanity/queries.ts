@@ -143,6 +143,10 @@ export const INDEX_EVENTS_QUERY = defineQuery(
   `*[_type == "event"] | order(startsAt desc) { ${EVENT_QUERY} }`,
 );
 
+export const INDEX_UPCOMING_EVENTS_QUERY = defineQuery(
+  `*[_type == "event" && dateTime(startsAt) > dateTime(now())] | order(startsAt asc) { ${EVENT_QUERY} }`,
+);
+
 export const GET_EVENT_BY_SLUG_QUERY = defineQuery(
   `*[_type == "event" && slug.current == $slug][0] { ${EVENT_QUERY} }`,
 );

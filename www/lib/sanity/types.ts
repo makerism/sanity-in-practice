@@ -1498,6 +1498,58 @@ export type INDEX_EVENTS_QUERY_RESULT = Array<{
 }>;
 
 // Source: ../www/lib/sanity/queries.ts
+// Variable: INDEX_UPCOMING_EVENTS_QUERY
+// Query: *[_type == "event" && dateTime(startsAt) > dateTime(now())] | order(startsAt asc) {   ...,  coverImage {      ...,  asset -> {    ...  }  } }
+export type INDEX_UPCOMING_EVENTS_QUERY_RESULT = Array<{
+  _id: string;
+  _type: 'event';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  metadata: Metadata;
+  startsAt: string;
+  endsAt: string;
+  location?: string;
+  lumaEventId: string;
+  categories?: Array<
+    {
+      _key: string;
+    } & EventCategoryReference
+  >;
+  description?: string;
+  coverImage: {
+    asset: {
+      _id: string;
+      _type: 'sanity.imageAsset';
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      originalFilename?: string;
+      label?: string;
+      title?: string;
+      description?: string;
+      altText?: string;
+      sha1hash?: string;
+      extension?: string;
+      mimeType?: string;
+      size?: number;
+      assetId?: string;
+      uploadId?: string;
+      path?: string;
+      url?: string;
+      metadata?: SanityImageMetadata;
+      source?: SanityAssetSourceData;
+    } | null;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: 'image';
+  };
+}>;
+
+// Source: ../www/lib/sanity/queries.ts
 // Variable: GET_EVENT_BY_SLUG_QUERY
 // Query: *[_type == "event" && slug.current == $slug][0] {   ...,  coverImage {      ...,  asset -> {    ...  }  } }
 export type GET_EVENT_BY_SLUG_QUERY_RESULT = {
@@ -1559,6 +1611,7 @@ declare module '@sanity/client' {
     '*[_type == "article" && slug.current == $slug][0] { \n  ...,\n  "excerptPlainText": pt::text(excerpt),\n  coverImage {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  content[] {\n    \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  }\n\n  },\n }': GET_ARTICLE_BY_SLUG_QUERY_RESULT;
     '*[_type == "settings" && _id == "settings"][0] { \n  ...,\n  activeAnnouncement -> {\n    \n  ...,\n  content[] {\n    \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  }\n\n  },\n\n  },\n }': GET_SETTINGS_QUERY_RESULT;
     '*[_type == "event"] | order(startsAt desc) { \n  ...,\n  coverImage {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  }\n }': INDEX_EVENTS_QUERY_RESULT;
+    '*[_type == "event" && dateTime(startsAt) > dateTime(now())] | order(startsAt asc) { \n  ...,\n  coverImage {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  }\n }': INDEX_UPCOMING_EVENTS_QUERY_RESULT;
     '*[_type == "event" && slug.current == $slug][0] { \n  ...,\n  coverImage {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  }\n }': GET_EVENT_BY_SLUG_QUERY_RESULT;
   }
 }

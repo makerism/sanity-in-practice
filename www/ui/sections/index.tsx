@@ -12,7 +12,7 @@ type SectionsProps = {
 
 const Sections: React.FC<SectionsProps> = (props) => {
   return (
-    <div className="space-y-12">
+    <div className="space-y-24">
       {props.sections.map((section) => {
         if (section._type === 'centeredImage') {
           return <CenteredImage key={section._key} section={section} />;

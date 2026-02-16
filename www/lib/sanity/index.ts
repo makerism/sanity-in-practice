@@ -45,5 +45,6 @@ export const Pages = {
 
 export const Events = {
   index: () => client.fetch(Queries.INDEX_EVENTS_QUERY),
+  upcoming: () => client.fetch(Queries.INDEX_UPCOMING_EVENTS_QUERY),
   getBySlug: (slug: string) => client.fetch(Queries.GET_EVENT_BY_SLUG_QUERY, { slug }),
 };

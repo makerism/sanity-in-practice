@@ -29,7 +29,7 @@ const EventCard: React.FC<EventCardProps> = (props) => {
             </Text.Body>
             <Text.Body className="text-muted">{props.event.location}</Text.Body>
           </div>
-          <Text.Body className="mt-2">{props.event.description}</Text.Body>
+          <Text.Body className="mt-2 line-clamp-3">{props.event.description}</Text.Body>
         </div>
         <Text.Body bold className="text-primary">
           View Event

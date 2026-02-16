@@ -2,6 +2,7 @@ import * as Next from 'next';
 import * as Sanity from '@/lib/sanity';
 
 import Navigation from '@/ui/navigation';
+import Footer from '@/ui/footer';
 
 import './globals.css';
 
@@ -44,6 +45,7 @@ const RootLayout: React.FC<React.PropsWithChildren> = (props) => {
       <body>
         <Navigation />
         <div className="mb-foot">{props.children}</div>
+        <Footer />
       </body>
     </html>
   );

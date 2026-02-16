@@ -14,7 +14,7 @@ const EventsIndexView: React.FC<EventsIndexProps> = (props) => {
       <Page.Container className="mb-8 text-center">
         <Text.Heading>Event Calendar</Text.Heading>
       </Page.Container>
-      <Page.NarrowContainer className="grid grid-cols-12 gap-x-3 gap-y-4 auto-rows-fr">
+      <Page.NarrowContainer className="grid grid-cols-12 gap-x-3 gap-y-6">
         {props.events.map((event) => (
           <div className="col-span-12 sm:col-span-6" key={event._id}>
             <EventCard event={event} />
