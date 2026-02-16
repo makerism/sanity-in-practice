@@ -1,7 +1,7 @@
 import * as Text from '@/ui/text';
 import * as Utils from '@/lib/utils';
 
-import Link from 'next/link';
+import Link from '@/ui/link';
 
 export type BaseProps = React.PropsWithChildren<
   {
@@ -10,7 +10,7 @@ export type BaseProps = React.PropsWithChildren<
     className?: string;
     inline?: boolean;
     size?: 'small' | 'default' | 'large';
-  } & (SubmitButtonProps | ButtonProps | LinkProps)
+  } & (SubmitButtonProps | ButtonProps | React.ComponentProps<typeof Link>)
 >;
 
 type ButtonProps = {
@@ -23,11 +23,6 @@ type SubmitButtonProps = {
   onClick?: () => void;
 };
 
-type LinkProps = {
-  href: HTMLAnchorElement['href'];
-  target?: HTMLAnchorElement['target'];
-};
-
 const Base: React.FC<BaseProps> = (props) => {
   const className = Utils.cx(
     `inline-flex items-center justify-center min-w-[160px] whitespace-nowrap enabled:cursor-pointer transition-colors disabled:pointer-events-none rounded-lg border px-8`,
@@ -35,7 +30,7 @@ const Base: React.FC<BaseProps> = (props) => {
       'w-full': !props.inline,
       'w-min': !!props.inline,
       'h-small-button-height': props.size === 'small',
-      'h-button-height': !props.size || props.size === 'default',
+      'h-button-height-default': !props.size || props.size === 'default',
       'h-large-button-height': props.size === 'large',
     },
     props.className,
@@ -45,7 +40,11 @@ const Base: React.FC<BaseProps> = (props) => {
     if (!props.label) return null;
 
     if (typeof props.label === 'string') {
-      return <Text.Body key="label">{props.label}</Text.Body>;
+      return (
+        <Text.Body key="label" bold>
+          {props.label}
+        </Text.Body>
+      );
     }
 
     return props.label;
@@ -55,7 +54,11 @@ const Base: React.FC<BaseProps> = (props) => {
     if (!props.children) return null;
 
     if (typeof props.children === 'string') {
-      return <Text.Body key="children">{props.children}</Text.Body>;
+      return (
+        <Text.Body bold key="children">
+          {props.children}
+        </Text.Body>
+      );
     }
 
     return props.children;
@@ -65,9 +68,17 @@ const Base: React.FC<BaseProps> = (props) => {
     return children() || label();
   };
 
+  if ('link' in props) {
+    return (
+      <Link link={props.link} className={className}>
+        {content()}
+      </Link>
+    );
+  }
+
   if ('href' in props) {
     return (
-      <Link href={props.href} target={props.target || '_self'} className={className}>
+      <Link href={props.href} target={props.target} className={className}>
         {content()}
       </Link>
     );

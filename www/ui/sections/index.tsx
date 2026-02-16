@@ -12,7 +12,7 @@ type SectionsProps = {
 
 const Sections: React.FC<SectionsProps> = (props) => {
   return (
-    <>
+    <div className="space-y-12">
       {props.sections.map((section) => {
         if (section._type === 'centeredImage') {
           return <CenteredImage key={section._key} section={section} />;
@@ -32,7 +32,7 @@ const Sections: React.FC<SectionsProps> = (props) => {
         // @ts-expect-error - Throw on unknown section type
         throw new Error(`Unknown section type: ${section._type as string}`);
       })}
-    </>
+    </div>
   );
 };
 

@@ -1675,6 +1675,36 @@
     }
   },
   {
+    "type": "type",
+    "name": "event.reference",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_ref": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          }
+        },
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "reference"
+          }
+        },
+        "_weak": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        }
+      },
+      "dereferencesTo": "event"
+    }
+  },
+  {
     "name": "linkWithLabel",
     "type": "type",
     "value": {
@@ -1699,6 +1729,10 @@
               {
                 "type": "inline",
                 "name": "article.reference"
+              },
+              {
+                "type": "inline",
+                "name": "event.reference"
               }
             ]
           },
@@ -1753,6 +1787,10 @@
               {
                 "type": "inline",
                 "name": "article.reference"
+              },
+              {
+                "type": "inline",
+                "name": "event.reference"
               }
             ]
           },

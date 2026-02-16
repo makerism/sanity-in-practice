@@ -10,7 +10,7 @@ type ArticlesIndexProps = {
 
 const ArticlesIndexView: React.FC<ArticlesIndexProps> = (props) => {
   return (
-    <div>
+    <div className="mt-head">
       <Page.Container className="mb-8 text-center">
         <Text.Heading>Articles</Text.Heading>
       </Page.Container>

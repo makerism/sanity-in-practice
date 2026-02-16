@@ -10,15 +10,20 @@ type FullWidthImageProps = {
 
 const FullWidthImage: React.FC<FullWidthImageProps> = (props) => {
   return (
-    <section id={props.key} className="@container full-width-image relative px-gutter">
-      <div className="absolute inset-0 bg-background/50 z-10 flex flex-col items-center justify-center px-gutter text-center">
-        <div className="max-w-site-container-editorial mx-auto">
+    <section id={props.key} className="@container full-width-image relative">
+      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-16 text-center">
+        <div className="max-w-[400px]">
           <Text.Heading>{props.section.heading}</Text.Heading>
-          <Text.Subheading>{props.section.subheading}</Text.Subheading>
+          <Text.Subheading className="mt-2 text-subdued text-balance">
+            {props.section.subheading}
+          </Text.Subheading>
         </div>
       </div>
-      <div className="relative aspect-square @md:aspect-video">
-        <Image image={props.section.image} className="h-full w-full object-cover " />
+      <div className="relative w-full h-[600px]">
+        <Image
+          image={props.section.image}
+          className="h-full w-full object-cover mix-blend-multiply"
+        />
       </div>
     </section>
   );

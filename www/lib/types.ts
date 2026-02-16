@@ -20,3 +20,5 @@ export type UpcomingEventsSection = Extract<Sections[number], { _type: 'upcoming
 export type Article = NonNullable<Sanity.GET_ARTICLE_BY_SLUG_QUERY_RESULT>;
 
 export type Event = NonNullable<Sanity.GET_EVENT_BY_SLUG_QUERY_RESULT>;
+
+export type RichText = NonNullable<Sanity.GET_ARTICLE_BY_SLUG_QUERY_RESULT>['content'];

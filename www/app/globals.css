@@ -74,6 +74,7 @@
   --nav-height: 3rem;
   --gutter: 1.25rem;
   --head: 2rem;
+  --foot: 12rem;
 
   --button-height-small: 32px;
   --button-height-default: 40px;
@@ -115,12 +116,15 @@
   --spacing-gutter: var(--gutter);
   --spacing-site-container: var(--site-container);
   --spacing-site-container-narrow: var(--site-container-narrow);
-  --spacing-head: var(--head);
+  --spacing-site-container-editorial: var(--site-container-editorial);
 
-  --spacing-button-height: var(--button-height);
+  --spacing-head: var(--head);
+  --spacing-foot: var(--foot);
+
   --spacing-input-height: var(--input-height);
 
   --spacing-button-height-small: var(--button-height-small);
+  --spacing-button-height-default: var(--button-height-default);
   --spacing-button-height-large: var(--button-height-large);
 }
 
@@ -156,7 +160,7 @@ Type Scale
 .type-heading,
 .type-heading-bold {
   font-size: 1.5rem;
-  line-height: 2rem;
+  line-height: 1.8rem;
 }
 .type-heading {
   font-weight: 500;

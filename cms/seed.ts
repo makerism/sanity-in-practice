@@ -2,6 +2,7 @@ import * as Sanity from '@sanity/client';
 import * as Fs from 'node:fs';
 import * as Path from 'node:path';
 import * as NodeUrl from 'node:url';
+import * as Readline from 'node:readline/promises';
 
 import * as Person from './mock/person';
 import * as Tag from './mock/tag';
@@ -100,7 +101,56 @@ const pickAssetId = (assets: { assetId: string }[], index: number) => {
   return assets[index % assets.length].assetId;
 };
 
+const deleteAllDocuments = async () => {
+  const types = [
+    'person',
+    'tag',
+    'eventCategory',
+    'announcement',
+    'article',
+    'event',
+    'page',
+    'settings',
+    'sanity.imageAsset',
+  ];
+  const query = `*[_type in $types]{ _id }`;
+  const docs = await client.fetch<{ _id: string }[]>(query, { types });
+
+  if (docs.length === 0) {
+    console.log('No existing documents to delete.');
+    return;
+  }
+
+  console.log(`Deleting ${docs.length} existing documents...`);
+  const transaction = client.transaction();
+  for (const doc of docs) {
+    transaction.delete(doc._id);
+  }
+  await transaction.commit();
+  console.log(`Deleted ${docs.length} documents.`);
+};
+
+const confirm = async (message: string): Promise<boolean> => {
+  const rl = Readline.createInterface({ input: process.stdin, output: process.stdout });
+  const answer = await rl.question(`${message} (y/N) `);
+  rl.close();
+  return answer.trim().toLowerCase() === 'y';
+};
+
 const seed = async () => {
+  // 0. Confirm and delete existing documents
+  const dataset = client.config().dataset;
+  console.log(`\nDataset: ${dataset}`);
+  const shouldDelete = await confirm(
+    `This will delete all seeded documents in "${dataset}" and recreate them. Continue?`,
+  );
+  if (!shouldDelete) {
+    console.log('Aborted.');
+    process.exit(0);
+  }
+
+  await deleteAllDocuments();
+
   // 1. Upload images
   const assets = await uploadImages();
   const assetIds = assets.map((a) => a.assetId);

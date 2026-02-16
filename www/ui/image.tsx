@@ -10,7 +10,7 @@ type ImageBaseProps = Omit<
 
 type ImageProps = {
   image: {
-    _type: 'image';
+    _type: 'image' | 'richImage';
     asset?: Types.Sanity.SanityImageAsset | null;
     hotspot?: Types.Sanity.SanityImageHotspot;
     crop?: Types.Sanity.SanityImageCrop;

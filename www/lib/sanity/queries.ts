@@ -7,15 +7,37 @@ const IMAGE_QUERY = `
   }
 `;
 
+const LINK_QUERY = `
+  ...,
+  reference -> {
+    _type,
+    slug {
+      current
+    }
+  }
+`;
+
 const RICHTEXT_QUERY = `
   ...,
   _type == "richImage" => {
     ${IMAGE_QUERY}
+  },
+  markDefs[] {
+    ...,
+    _type == "link" => {
+      ${LINK_QUERY}
+    }
   }
 `;
 
+/*
+Notice how we use pt::text(excerpt) to get the plain text of the excerpt. This
+is used to display the excerpt in search results, meta descriptions, and
+sharecards where rich text isn't supported.
+*/
 const ARTICLE_QUERY = `
   ...,
+  "excerptPlainText": pt::text(excerpt),
   coverImage {
     ${IMAGE_QUERY}
   },
@@ -29,11 +51,17 @@ const SECTIONS_QUERY = `
   _type == "centeredImage" => {
     image {
       ${IMAGE_QUERY}
+    },
+    cta {
+      ${LINK_QUERY}
     }
   },
   _type == "fullWidthImage" => {
     image {
       ${IMAGE_QUERY}
+    },
+    cta {
+      ${LINK_QUERY}
     }
   },
   _type == "splitPane" => {
@@ -57,6 +85,9 @@ const SECTIONS_QUERY = `
     content[] {
       ${RICHTEXT_QUERY}
     },
+    cta {
+      ${LINK_QUERY}
+    }
   },
 `;
 

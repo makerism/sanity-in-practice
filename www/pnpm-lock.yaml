@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@portabletext/react':
+        specifier: ^6.0.2
+        version: 6.0.2(react@19.2.3)
       '@sanity/client':
         specifier: ^7.14.1
         version: 7.14.1
@@ -423,6 +426,20 @@ packages:
   '@nolyfill/is-core-module@1.0.39':
     resolution: {integrity: sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==}
     engines: {node: '>=12.4.0'}
+
+  '@portabletext/react@6.0.2':
+    resolution: {integrity: sha512-qE3/Fg8PqzGzZ6+lxVXKPDqthJTRG3T1R0R6wrUCVAYeC5e0JtXWwhOiWa0daLG9TEOwn2SUeB2SuWxQlTq+5g==}
+    engines: {node: '>=20.19 <22 || >=22.12'}
+    peerDependencies:
+      react: ^18.2 || ^19
+
+  '@portabletext/toolkit@5.0.1':
+    resolution: {integrity: sha512-qcwnWd15J2Ziwi0YfWHRx+DRqp87cPb+EBcYuEbDW0ChZwwxCdfIjDazzFpQeXnqhJn8own1c8UB3iHB61DiWg==}
+    engines: {node: '>=20.19 <22 || >=22.12'}
+
+  '@portabletext/types@4.0.1':
+    resolution: {integrity: sha512-L8PZjVjmdKpW+82c1oNqGMqCOtQD2xORqJfr6Is7X5XXbz38eLYY79IM/1ok+Esf/iGOPtEYORdcf0ETmsWYew==}
+    engines: {node: '>=20.19 <22 || >=22.12'}
 
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
@@ -2357,6 +2374,18 @@ snapshots:
       fastq: 1.20.1
 
   '@nolyfill/is-core-module@1.0.39': {}
+
+  '@portabletext/react@6.0.2(react@19.2.3)':
+    dependencies:
+      '@portabletext/toolkit': 5.0.1
+      '@portabletext/types': 4.0.1
+      react: 19.2.3
+
+  '@portabletext/toolkit@5.0.1':
+    dependencies:
+      '@portabletext/types': 4.0.1
+
+  '@portabletext/types@4.0.1': {}
 
   '@rtsao/scc@1.1.0': {}
 

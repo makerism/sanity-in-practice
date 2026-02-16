@@ -43,7 +43,7 @@ const RootLayout: React.FC<React.PropsWithChildren> = (props) => {
     <html lang="en">
       <body>
         <Navigation />
-        <div className="mt-8 mb-48">{props.children}</div>
+        <div className="mb-foot">{props.children}</div>
       </body>
     </html>
   );

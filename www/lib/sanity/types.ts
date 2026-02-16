@@ -294,9 +294,16 @@ export type ArticleReference = {
   [internalGroqTypeReferenceTo]?: 'article';
 };
 
+export type EventReference = {
+  _ref: string;
+  _type: 'reference';
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: 'event';
+};
+
 export type LinkWithLabel = {
   _type: 'linkWithLabel';
-  reference?: PageReference | ArticleReference;
+  reference?: PageReference | ArticleReference | EventReference;
   href?: string;
   openInNewTab?: boolean;
   label: string;
@@ -304,7 +311,7 @@ export type LinkWithLabel = {
 
 export type Link = {
   _type: 'link';
-  reference?: PageReference | ArticleReference;
+  reference?: PageReference | ArticleReference | EventReference;
   href?: string;
   openInNewTab?: boolean;
 };
@@ -530,6 +537,7 @@ export type AllSanitySchemaTypes =
   | Metadata
   | PageReference
   | ArticleReference
+  | EventReference
   | LinkWithLabel
   | Link
   | Page
@@ -552,7 +560,7 @@ export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: ../www/lib/sanity/queries.ts
 // Variable: INDEX_PAGES_QUERY
-// Query: *[_type == "page"] | order(publishedAt desc) {   ...,  sections[] {      ...,  _type == "centeredImage" => {    image {        ...,  asset -> {    ...  }    }  },  _type == "fullWidthImage" => {    image {        ...,  asset -> {    ...  }    }  },  _type == "splitPane" => {    firstPane {      ...,      image {          ...,  asset -> {    ...  }      }    },    secondPane {      ...,      image {          ...,  asset -> {    ...  }      }    }  },  _type == "textImage" => {    image {        ...,  asset -> {    ...  }    },    content[] {        ...,  _type == "richImage" => {      ...,  asset -> {    ...  }  }    },  },  }, }
+// Query: *[_type == "page"] | order(publishedAt desc) {   ...,  sections[] {      ...,  _type == "centeredImage" => {    image {        ...,  asset -> {    ...  }    },    cta {        ...,  reference -> {    _type,    slug {      current    }  }    }  },  _type == "fullWidthImage" => {    image {        ...,  asset -> {    ...  }    },    cta {        ...,  reference -> {    _type,    slug {      current    }  }    }  },  _type == "splitPane" => {    firstPane {      ...,      image {          ...,  asset -> {    ...  }      }    },    secondPane {      ...,      image {          ...,  asset -> {    ...  }      }    }  },  _type == "textImage" => {    image {        ...,  asset -> {    ...  }    },    content[] {        ...,  _type == "richImage" => {      ...,  asset -> {    ...  }  },  markDefs[] {    ...,    _type == "link" => {        ...,  reference -> {    _type,    slug {      current    }  }    }  }    },    cta {        ...,  reference -> {    _type,    slug {      current    }  }    }  },  }, }
 export type INDEX_PAGES_QUERY_RESULT = Array<{
   _id: string;
   _type: 'page';
@@ -597,7 +605,32 @@ export type INDEX_PAGES_QUERY_RESULT = Array<{
           _type: 'image';
         };
         caption?: string;
-        cta?: LinkWithLabel;
+        cta: {
+          _type: 'linkWithLabel';
+          reference:
+            | {
+                _type: 'article';
+                slug: {
+                  current: string;
+                };
+              }
+            | {
+                _type: 'event';
+                slug: {
+                  current: string;
+                };
+              }
+            | {
+                _type: 'page';
+                slug: {
+                  current: string;
+                };
+              }
+            | null;
+          href?: string;
+          openInNewTab?: boolean;
+          label: string;
+        } | null;
       }
     | {
         _key: string;
@@ -632,7 +665,32 @@ export type INDEX_PAGES_QUERY_RESULT = Array<{
           crop?: SanityImageCrop;
           _type: 'image';
         };
-        cta?: LinkWithLabel;
+        cta: {
+          _type: 'linkWithLabel';
+          reference:
+            | {
+                _type: 'article';
+                slug: {
+                  current: string;
+                };
+              }
+            | {
+                _type: 'event';
+                slug: {
+                  current: string;
+                };
+              }
+            | {
+                _type: 'page';
+                slug: {
+                  current: string;
+                };
+              }
+            | null;
+          href?: string;
+          openInNewTab?: boolean;
+          label: string;
+        } | null;
       }
     | {
         _key: string;
@@ -716,11 +774,32 @@ export type INDEX_PAGES_QUERY_RESULT = Array<{
           }>;
           style?: 'normal';
           listItem?: never;
-          markDefs?: Array<
-            {
-              _key: string;
-            } & Link
-          >;
+          markDefs: Array<{
+            _key: string;
+            _type: 'link';
+            reference:
+              | {
+                  _type: 'article';
+                  slug: {
+                    current: string;
+                  };
+                }
+              | {
+                  _type: 'event';
+                  slug: {
+                    current: string;
+                  };
+                }
+              | {
+                  _type: 'page';
+                  slug: {
+                    current: string;
+                  };
+                }
+              | null;
+            href?: string;
+            openInNewTab?: boolean;
+          }> | null;
           level?: number;
           _type: 'block';
           _key: string;
@@ -753,7 +832,32 @@ export type INDEX_PAGES_QUERY_RESULT = Array<{
           crop?: SanityImageCrop;
           _type: 'image';
         };
-        cta?: LinkWithLabel;
+        cta: {
+          _type: 'linkWithLabel';
+          reference:
+            | {
+                _type: 'article';
+                slug: {
+                  current: string;
+                };
+              }
+            | {
+                _type: 'event';
+                slug: {
+                  current: string;
+                };
+              }
+            | {
+                _type: 'page';
+                slug: {
+                  current: string;
+                };
+              }
+            | null;
+          href?: string;
+          openInNewTab?: boolean;
+          label: string;
+        } | null;
         orientation: 'imageLeft' | 'imageRight';
       }
     | {
@@ -767,7 +871,7 @@ export type INDEX_PAGES_QUERY_RESULT = Array<{
 
 // Source: ../www/lib/sanity/queries.ts
 // Variable: GET_PAGE_BY_SLUG_QUERY
-// Query: *[_type == "page" && slug.current == $slug][0] {   ...,  sections[] {      ...,  _type == "centeredImage" => {    image {        ...,  asset -> {    ...  }    }  },  _type == "fullWidthImage" => {    image {        ...,  asset -> {    ...  }    }  },  _type == "splitPane" => {    firstPane {      ...,      image {          ...,  asset -> {    ...  }      }    },    secondPane {      ...,      image {          ...,  asset -> {    ...  }      }    }  },  _type == "textImage" => {    image {        ...,  asset -> {    ...  }    },    content[] {        ...,  _type == "richImage" => {      ...,  asset -> {    ...  }  }    },  },  }, }
+// Query: *[_type == "page" && slug.current == $slug][0] {   ...,  sections[] {      ...,  _type == "centeredImage" => {    image {        ...,  asset -> {    ...  }    },    cta {        ...,  reference -> {    _type,    slug {      current    }  }    }  },  _type == "fullWidthImage" => {    image {        ...,  asset -> {    ...  }    },    cta {        ...,  reference -> {    _type,    slug {      current    }  }    }  },  _type == "splitPane" => {    firstPane {      ...,      image {          ...,  asset -> {    ...  }      }    },    secondPane {      ...,      image {          ...,  asset -> {    ...  }      }    }  },  _type == "textImage" => {    image {        ...,  asset -> {    ...  }    },    content[] {        ...,  _type == "richImage" => {      ...,  asset -> {    ...  }  },  markDefs[] {    ...,    _type == "link" => {        ...,  reference -> {    _type,    slug {      current    }  }    }  }    },    cta {        ...,  reference -> {    _type,    slug {      current    }  }    }  },  }, }
 export type GET_PAGE_BY_SLUG_QUERY_RESULT = {
   _id: string;
   _type: 'page';
@@ -812,7 +916,32 @@ export type GET_PAGE_BY_SLUG_QUERY_RESULT = {
           _type: 'image';
         };
         caption?: string;
-        cta?: LinkWithLabel;
+        cta: {
+          _type: 'linkWithLabel';
+          reference:
+            | {
+                _type: 'article';
+                slug: {
+                  current: string;
+                };
+              }
+            | {
+                _type: 'event';
+                slug: {
+                  current: string;
+                };
+              }
+            | {
+                _type: 'page';
+                slug: {
+                  current: string;
+                };
+              }
+            | null;
+          href?: string;
+          openInNewTab?: boolean;
+          label: string;
+        } | null;
       }
     | {
         _key: string;
@@ -847,7 +976,32 @@ export type GET_PAGE_BY_SLUG_QUERY_RESULT = {
           crop?: SanityImageCrop;
           _type: 'image';
         };
-        cta?: LinkWithLabel;
+        cta: {
+          _type: 'linkWithLabel';
+          reference:
+            | {
+                _type: 'article';
+                slug: {
+                  current: string;
+                };
+              }
+            | {
+                _type: 'event';
+                slug: {
+                  current: string;
+                };
+              }
+            | {
+                _type: 'page';
+                slug: {
+                  current: string;
+                };
+              }
+            | null;
+          href?: string;
+          openInNewTab?: boolean;
+          label: string;
+        } | null;
       }
     | {
         _key: string;
@@ -931,11 +1085,32 @@ export type GET_PAGE_BY_SLUG_QUERY_RESULT = {
           }>;
           style?: 'normal';
           listItem?: never;
-          markDefs?: Array<
-            {
-              _key: string;
-            } & Link
-          >;
+          markDefs: Array<{
+            _key: string;
+            _type: 'link';
+            reference:
+              | {
+                  _type: 'article';
+                  slug: {
+                    current: string;
+                  };
+                }
+              | {
+                  _type: 'event';
+                  slug: {
+                    current: string;
+                  };
+                }
+              | {
+                  _type: 'page';
+                  slug: {
+                    current: string;
+                  };
+                }
+              | null;
+            href?: string;
+            openInNewTab?: boolean;
+          }> | null;
           level?: number;
           _type: 'block';
           _key: string;
@@ -968,7 +1143,32 @@ export type GET_PAGE_BY_SLUG_QUERY_RESULT = {
           crop?: SanityImageCrop;
           _type: 'image';
         };
-        cta?: LinkWithLabel;
+        cta: {
+          _type: 'linkWithLabel';
+          reference:
+            | {
+                _type: 'article';
+                slug: {
+                  current: string;
+                };
+              }
+            | {
+                _type: 'event';
+                slug: {
+                  current: string;
+                };
+              }
+            | {
+                _type: 'page';
+                slug: {
+                  current: string;
+                };
+              }
+            | null;
+          href?: string;
+          openInNewTab?: boolean;
+          label: string;
+        } | null;
         orientation: 'imageLeft' | 'imageRight';
       }
     | {
@@ -982,7 +1182,7 @@ export type GET_PAGE_BY_SLUG_QUERY_RESULT = {
 
 // Source: ../www/lib/sanity/queries.ts
 // Variable: INDEX_ARTICLES_QUERY
-// Query: *[_type == "article"] | order(publishedAt desc) {   ...,  coverImage {      ...,  asset -> {    ...  }  },  content[] {      ...,  _type == "richImage" => {      ...,  asset -> {    ...  }  }  }, }
+// Query: *[_type == "article"] | order(publishedAt desc) {   ...,  "excerptPlainText": pt::text(excerpt),  coverImage {      ...,  asset -> {    ...  }  },  content[] {      ...,  _type == "richImage" => {      ...,  asset -> {    ...  }  },  markDefs[] {    ...,    _type == "link" => {        ...,  reference -> {    _type,    slug {      current    }  }    }  }  }, }
 export type INDEX_ARTICLES_QUERY_RESULT = Array<{
   _id: string;
   _type: 'article';
@@ -1031,11 +1231,32 @@ export type INDEX_ARTICLES_QUERY_RESULT = Array<{
         }>;
         style?: 'h2' | 'h3' | 'h4' | 'normal';
         listItem?: 'bullet' | 'number';
-        markDefs?: Array<
-          {
-            _key: string;
-          } & Link
-        >;
+        markDefs: Array<{
+          _key: string;
+          _type: 'link';
+          reference:
+            | {
+                _type: 'article';
+                slug: {
+                  current: string;
+                };
+              }
+            | {
+                _type: 'event';
+                slug: {
+                  current: string;
+                };
+              }
+            | {
+                _type: 'page';
+                slug: {
+                  current: string;
+                };
+              }
+            | null;
+          href?: string;
+          openInNewTab?: boolean;
+        }> | null;
         level?: number;
         _type: 'block';
         _key: string;
@@ -1069,14 +1290,16 @@ export type INDEX_ARTICLES_QUERY_RESULT = Array<{
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         caption?: string;
+        markDefs: null;
       }
   >;
   metadata?: Metadata;
+  excerptPlainText: string;
 }>;
 
 // Source: ../www/lib/sanity/queries.ts
 // Variable: GET_ARTICLE_BY_SLUG_QUERY
-// Query: *[_type == "article" && slug.current == $slug][0] {   ...,  coverImage {      ...,  asset -> {    ...  }  },  content[] {      ...,  _type == "richImage" => {      ...,  asset -> {    ...  }  }  }, }
+// Query: *[_type == "article" && slug.current == $slug][0] {   ...,  "excerptPlainText": pt::text(excerpt),  coverImage {      ...,  asset -> {    ...  }  },  content[] {      ...,  _type == "richImage" => {      ...,  asset -> {    ...  }  },  markDefs[] {    ...,    _type == "link" => {        ...,  reference -> {    _type,    slug {      current    }  }    }  }  }, }
 export type GET_ARTICLE_BY_SLUG_QUERY_RESULT = {
   _id: string;
   _type: 'article';
@@ -1125,11 +1348,32 @@ export type GET_ARTICLE_BY_SLUG_QUERY_RESULT = {
         }>;
         style?: 'h2' | 'h3' | 'h4' | 'normal';
         listItem?: 'bullet' | 'number';
-        markDefs?: Array<
-          {
-            _key: string;
-          } & Link
-        >;
+        markDefs: Array<{
+          _key: string;
+          _type: 'link';
+          reference:
+            | {
+                _type: 'article';
+                slug: {
+                  current: string;
+                };
+              }
+            | {
+                _type: 'event';
+                slug: {
+                  current: string;
+                };
+              }
+            | {
+                _type: 'page';
+                slug: {
+                  current: string;
+                };
+              }
+            | null;
+          href?: string;
+          openInNewTab?: boolean;
+        }> | null;
         level?: number;
         _type: 'block';
         _key: string;
@@ -1163,14 +1407,16 @@ export type GET_ARTICLE_BY_SLUG_QUERY_RESULT = {
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         caption?: string;
+        markDefs: null;
       }
   >;
   metadata?: Metadata;
+  excerptPlainText: string;
 } | null;
 
 // Source: ../www/lib/sanity/queries.ts
 // Variable: GET_SETTINGS_QUERY
-// Query: *[_type == "settings" && _id == "settings"][0] {   ...,  activeAnnouncement -> {      ...,  content[] {      ...,  _type == "richImage" => {      ...,  asset -> {    ...  }  }  },  }, }
+// Query: *[_type == "settings" && _id == "settings"][0] {   ...,  activeAnnouncement -> {      ...,  content[] {      ...,  _type == "richImage" => {      ...,  asset -> {    ...  }  },  markDefs[] {    ...,    _type == "link" => {        ...,  reference -> {    _type,    slug {      current    }  }    }  }  },  }, }
 export type GET_SETTINGS_QUERY_RESULT = {
   _id: 'settings';
   _type: 'settings';
@@ -1307,11 +1553,11 @@ export type GET_EVENT_BY_SLUG_QUERY_RESULT = {
 import '@sanity/client';
 declare module '@sanity/client' {
   interface SanityQueries {
-    '*[_type == "page"] | order(publishedAt desc) { \n  ...,\n  sections[] {\n    \n  ...,\n  _type == "centeredImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    }\n  },\n  _type == "fullWidthImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    }\n  },\n  _type == "splitPane" => {\n    firstPane {\n      ...,\n      image {\n        \n  ...,\n  asset -> {\n    ...\n  }\n\n      }\n    },\n    secondPane {\n      ...,\n      image {\n        \n  ...,\n  asset -> {\n    ...\n  }\n\n      }\n    }\n  },\n  _type == "textImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    },\n    content[] {\n      \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  }\n\n    },\n  },\n\n  },\n }': INDEX_PAGES_QUERY_RESULT;
-    '*[_type == "page" && slug.current == $slug][0] { \n  ...,\n  sections[] {\n    \n  ...,\n  _type == "centeredImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    }\n  },\n  _type == "fullWidthImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    }\n  },\n  _type == "splitPane" => {\n    firstPane {\n      ...,\n      image {\n        \n  ...,\n  asset -> {\n    ...\n  }\n\n      }\n    },\n    secondPane {\n      ...,\n      image {\n        \n  ...,\n  asset -> {\n    ...\n  }\n\n      }\n    }\n  },\n  _type == "textImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    },\n    content[] {\n      \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  }\n\n    },\n  },\n\n  },\n }': GET_PAGE_BY_SLUG_QUERY_RESULT;
-    '*[_type == "article"] | order(publishedAt desc) { \n  ...,\n  coverImage {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  content[] {\n    \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  }\n\n  },\n }': INDEX_ARTICLES_QUERY_RESULT;
-    '*[_type == "article" && slug.current == $slug][0] { \n  ...,\n  coverImage {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  content[] {\n    \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  }\n\n  },\n }': GET_ARTICLE_BY_SLUG_QUERY_RESULT;
-    '*[_type == "settings" && _id == "settings"][0] { \n  ...,\n  activeAnnouncement -> {\n    \n  ...,\n  content[] {\n    \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  }\n\n  },\n\n  },\n }': GET_SETTINGS_QUERY_RESULT;
+    '*[_type == "page"] | order(publishedAt desc) { \n  ...,\n  sections[] {\n    \n  ...,\n  _type == "centeredImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    },\n    cta {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  },\n  _type == "fullWidthImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    },\n    cta {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  },\n  _type == "splitPane" => {\n    firstPane {\n      ...,\n      image {\n        \n  ...,\n  asset -> {\n    ...\n  }\n\n      }\n    },\n    secondPane {\n      ...,\n      image {\n        \n  ...,\n  asset -> {\n    ...\n  }\n\n      }\n    }\n  },\n  _type == "textImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    },\n    content[] {\n      \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  }\n\n    },\n    cta {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  },\n\n  },\n }': INDEX_PAGES_QUERY_RESULT;
+    '*[_type == "page" && slug.current == $slug][0] { \n  ...,\n  sections[] {\n    \n  ...,\n  _type == "centeredImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    },\n    cta {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  },\n  _type == "fullWidthImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    },\n    cta {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  },\n  _type == "splitPane" => {\n    firstPane {\n      ...,\n      image {\n        \n  ...,\n  asset -> {\n    ...\n  }\n\n      }\n    },\n    secondPane {\n      ...,\n      image {\n        \n  ...,\n  asset -> {\n    ...\n  }\n\n      }\n    }\n  },\n  _type == "textImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    },\n    content[] {\n      \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  }\n\n    },\n    cta {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  },\n\n  },\n }': GET_PAGE_BY_SLUG_QUERY_RESULT;
+    '*[_type == "article"] | order(publishedAt desc) { \n  ...,\n  "excerptPlainText": pt::text(excerpt),\n  coverImage {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  content[] {\n    \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  }\n\n  },\n }': INDEX_ARTICLES_QUERY_RESULT;
+    '*[_type == "article" && slug.current == $slug][0] { \n  ...,\n  "excerptPlainText": pt::text(excerpt),\n  coverImage {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  content[] {\n    \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  }\n\n  },\n }': GET_ARTICLE_BY_SLUG_QUERY_RESULT;
+    '*[_type == "settings" && _id == "settings"][0] { \n  ...,\n  activeAnnouncement -> {\n    \n  ...,\n  content[] {\n    \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  }\n\n  },\n\n  },\n }': GET_SETTINGS_QUERY_RESULT;
     '*[_type == "event"] | order(startsAt desc) { \n  ...,\n  coverImage {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  }\n }': INDEX_EVENTS_QUERY_RESULT;
     '*[_type == "event" && slug.current == $slug][0] { \n  ...,\n  coverImage {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  }\n }': GET_EVENT_BY_SLUG_QUERY_RESULT;
   }
