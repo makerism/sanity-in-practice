@@ -15,7 +15,7 @@ const TextImage: React.FC<TextImageProps> = (props) => {
   return (
     <section id={props.key} className="@container text-image">
       <Page.Container className="grid grid-cols-12 gap-x-6 gap-y-4">
-        <div className="col-span-12 sm:col-span-6 flex items-center">
+        <div className="col-span-12 order-2 sm:order-1 sm:col-span-6 flex items-center">
           <div>
             <div className="max-w-[400px]">
               <Text.Heading>{props.section.heading}</Text.Heading>
@@ -35,7 +35,7 @@ const TextImage: React.FC<TextImageProps> = (props) => {
             )}
           </div>
         </div>
-        <div className="col-span-12 sm:col-span-6">
+        <div className="col-span-12 order-1 sm:order-2 sm:col-span-6">
           <div className="relative aspect-4/3">
             <Image image={props.section.image} className="h-full w-full object-cover" />
           </div>

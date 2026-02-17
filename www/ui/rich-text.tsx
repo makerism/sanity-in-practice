@@ -21,7 +21,11 @@ type RichTextLink = Extract<
 type RichTextImage = Extract<Types.RichText[number], { _type: 'richImage' }>;
 
 const RichText: React.FC<RichTextProps> = (props) => {
-  return <Pt.PortableText value={props.value} components={Components} />;
+  return (
+    <div className="rich-text">
+      <Pt.PortableText value={props.value} components={Components} />
+    </div>
+  );
 };
 
 const Components: Partial<Pt.PortableTextReactComponents> = {
@@ -53,7 +57,7 @@ const Components: Partial<Pt.PortableTextReactComponents> = {
   types: {
     richImage: (props: Pt.PortableTextComponentProps<RichTextImage>) => {
       if (!props.value) throw new Error('Image value is required');
-      return <Image image={props.value} />;
+      return <Image image={props.value} className="image aspect-4/3 w-full object-cover" />;
     },
   },
   marks: {

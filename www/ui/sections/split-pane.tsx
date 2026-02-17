@@ -1,6 +1,7 @@
+import * as Page from '@/ui/page';
 import * as Types from '@/lib/types';
-import * as Utils from '@/lib/utils';
 import * as Text from '@/ui/text';
+import * as Utils from '@/lib/utils';
 
 import Image from '@/ui/image';
 
@@ -11,9 +12,11 @@ type SplitPaneProps = {
 
 const SplitPane: React.FC<SplitPaneProps> = (props) => {
   return (
-    <section id={props.key} className="split-pane grid grid-cols-2 border-y border-line">
-      <Pane {...props.section.firstPane} index={0} />
-      <Pane {...props.section.secondPane} index={1} />
+    <section id={props.key} className="split-pane border-y border-line">
+      <Page.Container className="grid grid-cols-2">
+        <Pane {...props.section.firstPane} index={0} />
+        <Pane {...props.section.secondPane} index={1} />
+      </Page.Container>
     </section>
   );
 };
@@ -28,9 +31,9 @@ type PaneProps = {
 const Pane: React.FC<PaneProps> = (props) => {
   return (
     <div
-      className={Utils.cx('col-span-1 px-8 py-12', {
-        'border-r border-line': props.index === 0,
-        'bg-surface': props.index === 1,
+      className={Utils.cx('col-span-2 sm:col-span-1 py-12', {
+        'sm:border-r sm:border-line sm:pr-8 pb-0 sm:pb-12': props.index === 0,
+        'sm:pl-8': props.index === 1,
       })}
     >
       <div className="relative aspect-4/3">
