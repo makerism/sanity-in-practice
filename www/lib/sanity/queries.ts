@@ -38,6 +38,9 @@ sharecards where rich text isn't supported.
 const ARTICLE_QUERY = `
   ...,
   "excerptPlainText": pt::text(excerpt),
+  author -> {
+    ...
+  },
   coverImage {
     ${IMAGE_QUERY}
   },

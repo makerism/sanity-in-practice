@@ -4,13 +4,12 @@ import * as Text from '@/ui/text';
 import Image from '@/ui/image';
 
 type FullWidthImageProps = {
-  key: string;
   section: Types.FullWidthImageSection;
 };
 
 const FullWidthImage: React.FC<FullWidthImageProps> = (props) => {
   return (
-    <section id={props.key} className="@container full-width-image relative">
+    <section id={props.section._key} className="@container full-width-image relative">
       <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-16 text-center">
         <div className="max-w-[400px]">
           <Text.Heading>{props.section.heading}</Text.Heading>

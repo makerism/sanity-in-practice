@@ -6,13 +6,12 @@ import * as Utils from '@/lib/utils';
 import Image from '@/ui/image';
 
 type SplitPaneProps = {
-  key: string;
   section: Types.SplitPaneSection;
 };
 
 const SplitPane: React.FC<SplitPaneProps> = (props) => {
   return (
-    <section id={props.key} className="split-pane border-y border-line">
+    <section id={props.section._key} className="split-pane border-y border-line">
       <Page.Container className="grid grid-cols-2">
         <Pane {...props.section.firstPane} index={0} />
         <Pane {...props.section.secondPane} index={1} />

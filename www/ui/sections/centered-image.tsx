@@ -5,13 +5,12 @@ import * as Text from '@/ui/text';
 import Image from '@/ui/image';
 
 type CenteredImageProps = {
-  key: string;
   section: Types.CenteredImageSection;
 };
 
 const CenteredImage: React.FC<CenteredImageProps> = (props) => {
   return (
-    <section id={props.key} className="centered-image pt-head">
+    <section id={props.section._key} className="centered-image pt-head">
       <Page.EditorialContainer>
         <div className="text-center mx-auto max-w-[400px]">
           <Text.Heading>{props.section.heading}</Text.Heading>

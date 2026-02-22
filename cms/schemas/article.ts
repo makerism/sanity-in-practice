@@ -65,6 +65,13 @@ const Article = Sanity.defineType({
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'author',
+      title: 'Author',
+      type: 'reference',
+      to: [{ type: 'person' }],
+      group: 'content',
+    },
+    {
       name: 'coverImage',
       title: 'Cover Image',
       type: 'image',

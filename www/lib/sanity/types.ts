@@ -258,15 +258,6 @@ export type Slug = {
   source?: string;
 };
 
-export type Person = {
-  _id: string;
-  _type: 'person';
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-};
-
 export type Metadata = {
   _type: 'metadata';
   description?: string;
@@ -373,6 +364,13 @@ export type Event = {
   };
 };
 
+export type PersonReference = {
+  _ref: string;
+  _type: 'reference';
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: 'person';
+};
+
 export type Article = {
   _id: string;
   _type: 'article';
@@ -382,6 +380,7 @@ export type Article = {
   title: string;
   slug: Slug;
   publishedAt: string;
+  author?: PersonReference;
   coverImage: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -392,6 +391,15 @@ export type Article = {
   excerpt?: RichTextSimple;
   content: RichTextWithImages;
   metadata?: Metadata;
+};
+
+export type Person = {
+  _id: string;
+  _type: 'person';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name: string;
 };
 
 export type Announcement = {
@@ -533,7 +541,6 @@ export type AllSanitySchemaTypes =
   | SanityImageHotspot
   | Tag
   | Slug
-  | Person
   | Metadata
   | PageReference
   | ArticleReference
@@ -544,7 +551,9 @@ export type AllSanitySchemaTypes =
   | EventCategory
   | EventCategoryReference
   | Event
+  | PersonReference
   | Article
+  | Person
   | Announcement
   | MediaTag
   | SanityImagePaletteSwatch
@@ -1182,7 +1191,7 @@ export type GET_PAGE_BY_SLUG_QUERY_RESULT = {
 
 // Source: ../www/lib/sanity/queries.ts
 // Variable: INDEX_ARTICLES_QUERY
-// Query: *[_type == "article"] | order(publishedAt desc) {   ...,  "excerptPlainText": pt::text(excerpt),  coverImage {      ...,  asset -> {    ...  }  },  content[] {      ...,  _type == "richImage" => {      ...,  asset -> {    ...  }  },  markDefs[] {    ...,    _type == "link" => {        ...,  reference -> {    _type,    slug {      current    }  }    }  }  }, }
+// Query: *[_type == "article"] | order(publishedAt desc) {   ...,  "excerptPlainText": pt::text(excerpt),  author -> {    ...  },  coverImage {      ...,  asset -> {    ...  }  },  content[] {      ...,  _type == "richImage" => {      ...,  asset -> {    ...  }  },  markDefs[] {    ...,    _type == "link" => {        ...,  reference -> {    _type,    slug {      current    }  }    }  }  }, }
 export type INDEX_ARTICLES_QUERY_RESULT = Array<{
   _id: string;
   _type: 'article';
@@ -1192,6 +1201,14 @@ export type INDEX_ARTICLES_QUERY_RESULT = Array<{
   title: string;
   slug: Slug;
   publishedAt: string;
+  author: {
+    _id: string;
+    _type: 'person';
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name: string;
+  } | null;
   coverImage: {
     asset: {
       _id: string;
@@ -1299,7 +1316,7 @@ export type INDEX_ARTICLES_QUERY_RESULT = Array<{
 
 // Source: ../www/lib/sanity/queries.ts
 // Variable: GET_ARTICLE_BY_SLUG_QUERY
-// Query: *[_type == "article" && slug.current == $slug][0] {   ...,  "excerptPlainText": pt::text(excerpt),  coverImage {      ...,  asset -> {    ...  }  },  content[] {      ...,  _type == "richImage" => {      ...,  asset -> {    ...  }  },  markDefs[] {    ...,    _type == "link" => {        ...,  reference -> {    _type,    slug {      current    }  }    }  }  }, }
+// Query: *[_type == "article" && slug.current == $slug][0] {   ...,  "excerptPlainText": pt::text(excerpt),  author -> {    ...  },  coverImage {      ...,  asset -> {    ...  }  },  content[] {      ...,  _type == "richImage" => {      ...,  asset -> {    ...  }  },  markDefs[] {    ...,    _type == "link" => {        ...,  reference -> {    _type,    slug {      current    }  }    }  }  }, }
 export type GET_ARTICLE_BY_SLUG_QUERY_RESULT = {
   _id: string;
   _type: 'article';
@@ -1309,6 +1326,14 @@ export type GET_ARTICLE_BY_SLUG_QUERY_RESULT = {
   title: string;
   slug: Slug;
   publishedAt: string;
+  author: {
+    _id: string;
+    _type: 'person';
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name: string;
+  } | null;
   coverImage: {
     asset: {
       _id: string;
@@ -1607,8 +1632,8 @@ declare module '@sanity/client' {
   interface SanityQueries {
     '*[_type == "page"] | order(publishedAt desc) { \n  ...,\n  sections[] {\n    \n  ...,\n  _type == "centeredImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    },\n    cta {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  },\n  _type == "fullWidthImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    },\n    cta {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  },\n  _type == "splitPane" => {\n    firstPane {\n      ...,\n      image {\n        \n  ...,\n  asset -> {\n    ...\n  }\n\n      }\n    },\n    secondPane {\n      ...,\n      image {\n        \n  ...,\n  asset -> {\n    ...\n  }\n\n      }\n    }\n  },\n  _type == "textImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    },\n    content[] {\n      \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  }\n\n    },\n    cta {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  },\n\n  },\n }': INDEX_PAGES_QUERY_RESULT;
     '*[_type == "page" && slug.current == $slug][0] { \n  ...,\n  sections[] {\n    \n  ...,\n  _type == "centeredImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    },\n    cta {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  },\n  _type == "fullWidthImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    },\n    cta {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  },\n  _type == "splitPane" => {\n    firstPane {\n      ...,\n      image {\n        \n  ...,\n  asset -> {\n    ...\n  }\n\n      }\n    },\n    secondPane {\n      ...,\n      image {\n        \n  ...,\n  asset -> {\n    ...\n  }\n\n      }\n    }\n  },\n  _type == "textImage" => {\n    image {\n      \n  ...,\n  asset -> {\n    ...\n  }\n\n    },\n    content[] {\n      \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  }\n\n    },\n    cta {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  },\n\n  },\n }': GET_PAGE_BY_SLUG_QUERY_RESULT;
-    '*[_type == "article"] | order(publishedAt desc) { \n  ...,\n  "excerptPlainText": pt::text(excerpt),\n  coverImage {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  content[] {\n    \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  }\n\n  },\n }': INDEX_ARTICLES_QUERY_RESULT;
-    '*[_type == "article" && slug.current == $slug][0] { \n  ...,\n  "excerptPlainText": pt::text(excerpt),\n  coverImage {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  content[] {\n    \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  }\n\n  },\n }': GET_ARTICLE_BY_SLUG_QUERY_RESULT;
+    '*[_type == "article"] | order(publishedAt desc) { \n  ...,\n  "excerptPlainText": pt::text(excerpt),\n  author -> {\n    ...\n  },\n  coverImage {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  content[] {\n    \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  }\n\n  },\n }': INDEX_ARTICLES_QUERY_RESULT;
+    '*[_type == "article" && slug.current == $slug][0] { \n  ...,\n  "excerptPlainText": pt::text(excerpt),\n  author -> {\n    ...\n  },\n  coverImage {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  content[] {\n    \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  }\n\n  },\n }': GET_ARTICLE_BY_SLUG_QUERY_RESULT;
     '*[_type == "settings" && _id == "settings"][0] { \n  ...,\n  activeAnnouncement -> {\n    \n  ...,\n  content[] {\n    \n  ...,\n  _type == "richImage" => {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  },\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  ...,\n  reference -> {\n    _type,\n    slug {\n      current\n    }\n  }\n\n    }\n  }\n\n  },\n\n  },\n }': GET_SETTINGS_QUERY_RESULT;
     '*[_type == "event"] | order(startsAt desc) { \n  ...,\n  coverImage {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  }\n }': INDEX_EVENTS_QUERY_RESULT;
     '*[_type == "event" && dateTime(startsAt) > dateTime(now())] | order(startsAt asc) { \n  ...,\n  coverImage {\n    \n  ...,\n  asset -> {\n    ...\n  }\n\n  }\n }': INDEX_UPCOMING_EVENTS_QUERY_RESULT;

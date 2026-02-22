@@ -7,13 +7,12 @@ import Image from '@/ui/image';
 import RichText from '@/ui/rich-text';
 
 type TextImageProps = {
-  key: string;
   section: Types.TextImageSection;
 };
 
 const TextImage: React.FC<TextImageProps> = (props) => {
   return (
-    <section id={props.key} className="@container text-image">
+    <section id={props.section._key} className="@container text-image">
       <Page.Container className="grid grid-cols-12 gap-x-6 gap-y-4">
         <div className="col-span-12 order-2 sm:order-1 sm:col-span-6 flex items-center">
           <div>

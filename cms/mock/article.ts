@@ -7,10 +7,11 @@ import { faker } from '@faker-js/faker';
 type Params = Partial<Utils.MockDoc<Sanity.Article>> & {
   coverImageAssetId?: string;
   inlineImageAssetIds?: string[];
+  authorId?: string;
 };
 
 export const mock = (params: Params = {}): Utils.MockDoc<Sanity.Article> => {
-  const { coverImageAssetId, inlineImageAssetIds = [], ...overrides } = params;
+  const { coverImageAssetId, inlineImageAssetIds = [], authorId, ...overrides } = params;
   const title = overrides.title ?? faker.lorem.sentence({ min: 4, max: 8 }).replace(/\.$/, '');
 
   return {
@@ -19,6 +20,7 @@ export const mock = (params: Params = {}): Utils.MockDoc<Sanity.Article> => {
     title,
     slug: Utils.slugify(title),
     publishedAt: faker.date.past({ years: 2 }).toISOString().split('T')[0],
+    ...(authorId ? { author: { _type: 'reference' as const, _ref: authorId } } : {}),
     coverImage: Utils.imageRef(coverImageAssetId ?? 'image-placeholder'),
     excerpt: RichText.Simple.mock([faker.lorem.paragraph({ min: 2, max: 4 })]),
     content: RichText.WithImages.mock(

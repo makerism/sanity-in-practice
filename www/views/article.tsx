@@ -10,12 +10,14 @@ type ArticleViewProps = {
 };
 
 const ArticleView: React.FC<ArticleViewProps> = (props) => {
+  const getMeta = () => {
+    if (!props.article.author) return Utils.formatDate(props.article.publishedAt);
+    return `${props.article.author.name} · ${Utils.formatDate(props.article.publishedAt)}`;
+  };
   return (
     <div className="mt-head">
       <div className="mb-8 text-center max-w-[400px] mx-auto">
-        <Text.Detail className="text-muted">
-          {Utils.formatDate(props.article.publishedAt)}
-        </Text.Detail>
+        <Text.Detail className="text-muted">{getMeta()}</Text.Detail>
         <Text.Heading className="mt-1">{props.article.title}</Text.Heading>
       </div>
       <Page.EditorialContainer>

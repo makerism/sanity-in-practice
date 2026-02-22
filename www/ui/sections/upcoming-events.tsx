@@ -7,7 +7,6 @@ import * as Types from '@/lib/types';
 import EventCard from '@/ui/event-card';
 
 type UpcomingEventsProps = {
-  key: string;
   section: Types.UpcomingEventsSection;
 };
 
@@ -16,7 +15,7 @@ const UpcomingEvents: React.FC<UpcomingEventsProps> = async (props) => {
   const soonestEvents = events.slice(0, 3);
 
   return (
-    <section id={props.key} className="upcoming-events">
+    <section id={props.section._key} className="upcoming-events">
       <Page.Container>
         <div className="max-w-[400px] mx-auto mb-8 text-center">
           <Text.Heading>{props.section.heading}</Text.Heading>

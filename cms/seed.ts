@@ -23,8 +23,8 @@ Then add SANITY_API_TOKEN to your .env.local file.
 */
 const SANITY_API_TOKEN = process.env.SANITY_API_TOKEN;
 if (!SANITY_API_TOKEN) {
-  console.error('Missing SANITY_TOKEN environment variable.');
-  console.error('Usage: SANITY_TOKEN=sk-... pnpm seed');
+  console.error('Missing SANITY_API_TOKEN environment variable.');
+  console.error('Usage: SANITY_API_TOKEN=sk-... pnpm seed');
   process.exit(1);
 }
 
@@ -166,10 +166,13 @@ const seed = async () => {
   const announcements = range(COUNTS.announcement).map(() => Announcement.mock());
 
   // 3. Generate documents with references
+  const personIds = persons.map((p) => p._id);
+
   const articles = range(COUNTS.article).map((i) =>
     Article.mock({
       coverImageAssetId: pickAssetId(assets, i),
       inlineImageAssetIds: [pickAssetId(assets, i + 10), pickAssetId(assets, i + 20)],
+      authorId: personIds[i % personIds.length],
     }),
   );
 
