@@ -1,3 +1,5 @@
+'use client';
+
 import * as Types from '@/lib/types';
 import * as Text from '@/ui/text';
 
@@ -20,6 +22,18 @@ type RichTextLink = Extract<
 
 type RichTextImage = Extract<Types.RichText[number], { _type: 'richImage' }>;
 
+const ANCHOR_CLASSES =
+  'hover:text-muted before:content-["#"] relative cursor-pointer before:absolute before:-left-6 before:flex before:items-center before:text-muted before:opacity-0 hover:before:opacity-100 before:transition-opacity scroll-mt-[calc(var(--spacing-nav-height)+1.5rem)] data-copied:before:content-["✓"] transition-colors';
+
+const copyAnchorLink = (e: React.MouseEvent<HTMLElement>, name?: string) => {
+  if (!name) return;
+  const url = `${window.location.origin}${window.location.pathname}#${name}`;
+  navigator.clipboard.writeText(url);
+  const el = e.currentTarget;
+  el.setAttribute('data-copied', '');
+  setTimeout(() => el.removeAttribute('data-copied'), 1000);
+};
+
 const RichText: React.FC<RichTextProps> = (props) => {
   return (
     <div className="rich-text">
@@ -34,13 +48,40 @@ const Components: Partial<Pt.PortableTextReactComponents> = {
       return <Text.Body>{props.children}</Text.Body>;
     },
     h1: (props) => {
-      return <Text.Heading as="h1">{props.children}</Text.Heading>;
+      return (
+        <Text.Heading
+          as="h1"
+          id={props.value._key}
+          className={ANCHOR_CLASSES}
+          onClick={(e: React.MouseEvent<HTMLElement>) => copyAnchorLink(e, props.value._key)}
+        >
+          {props.children}
+        </Text.Heading>
+      );
     },
     h2: (props) => {
-      return <Text.Subheading as="h2">{props.children}</Text.Subheading>;
+      return (
+        <Text.Subheading
+          as="h2"
+          id={props.value._key}
+          className={ANCHOR_CLASSES}
+          onClick={(e: React.MouseEvent<HTMLElement>) => copyAnchorLink(e, props.value._key)}
+        >
+          {props.children}
+        </Text.Subheading>
+      );
     },
     h3: (props) => {
-      return <Text.Paragraph as="h3">{props.children}</Text.Paragraph>;
+      return (
+        <Text.Paragraph
+          as="h3"
+          id={props.value._key}
+          className={ANCHOR_CLASSES}
+          onClick={(e: React.MouseEvent<HTMLElement>) => copyAnchorLink(e, props.value._key)}
+        >
+          {props.children}
+        </Text.Paragraph>
+      );
     },
     h4: (props) => {
       return <Text.Body bold>{props.children}</Text.Body>;

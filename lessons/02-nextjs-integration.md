@@ -27,7 +27,18 @@ Add `[0]` after the filter to get a single document instead of an array:
 
 `$slug` is a parameter — passed in at query time, not hardcoded.
 
-References are stored as IDs. To get the actual data, you **dereference** with `->`:
+References are stored as IDs. To get the actual data, you **dereference** with `->`. Here's a single reference — an article has one author:
+
+```groq
+*[_type == "article"] {
+  title,
+  author -> { name }
+}
+```
+
+Without `->`, `author` would return `{ _ref: "abc123..." }` — just an ID, not the actual person data.
+
+For an **array of references**, the syntax is similar but you dereference inside `[]`:
 
 ```groq
 *[_type == "event"] {
@@ -36,7 +47,7 @@ References are stored as IDs. To get the actual data, you **dereference** with `
 }
 ```
 
-Without `->`, `categories` would return `[{ _ref: "abc123..." }, ...]` — just IDs, not the actual category data.
+Without `->`, `categories` would return `[{ _ref: "abc123..." }, ...]` — an array of IDs.
 
 The Vision tool in Sanity Studio lets you test GROQ queries interactively — useful for experimenting before writing any code. Now we'll see how queries are used in a Next.js app.
 
@@ -192,6 +203,8 @@ if (section._type === 'fullWidthImage') return <FullWidthImage key={section._key
 // ...
 ```
 
+**Section `_key` as anchor ID** — Every item in a Sanity array gets a unique `_key`. Each section component uses it as the element's `id` (`<section id={props.section._key}>`), which enables anchor linking to a specific section on the page (e.g. `/about#abc123`). This is free — Sanity generates the key, you just wire it to the DOM.
+
 **Async sections** — [`www/ui/sections/upcoming-events.tsx`](../www/ui/sections/upcoming-events.tsx) is an async Server Component. It calls `Sanity.Events.upcoming()` directly — no props needed for the event data. This works because React Server Components can be async. Good pattern for sections that need live data rather than data passed down from the page query.
 
 ---
@@ -202,7 +215,7 @@ if (section._type === 'fullWidthImage') return <FullWidthImage key={section._key
 
 Uses `@portabletext/react` to map Portable Text blocks to React components:
 
-- **`block`** — Maps heading levels to typography components (`Text.Heading`, `Text.Subheading`, etc.)
+- **`block`** — Maps heading levels to typography components (`Text.Heading`, `Text.Subheading`, etc.). Headings get `id={props.value._key}` — same anchor linking pattern as sections. Every Portable Text block has a `_key`, so headings become linkable anchors for free (e.g. `/articles/my-post#abc123`).
 - **`list`** — `bullet` → `<ul>`, `number` → `<ol>`
 - **`types`** — `richImage` renders through the custom `Image` component
 - **`marks`** — `link` renders through the custom `Link` component, which resolves Sanity references via `Paths.forEntity()`
