@@ -26,15 +26,15 @@ const Announcement = Sanity.defineType({
       name: 'message',
       title: 'Message',
       description: 'The message to display in the announcement',
-      type: 'richTextBase',
+      type: 'text',
       validation: (Rule) => Rule.required(),
     },
-    {
-      name: 'link',
-      title: 'Link',
-      description: 'If present, the announcement will be a clickable link',
-      type: 'link',
-    },
+    // {
+    //   name: 'link',
+    //   title: 'Link',
+    //   description: 'If present, the announcement will be a clickable link',
+    //   type: 'link',
+    // },
   ],
 });
 

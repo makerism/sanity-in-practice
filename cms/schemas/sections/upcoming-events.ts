@@ -28,7 +28,6 @@ const UpcomingEvents = Sanity.defineType({
       description:
         'If present, this will override the default CTA for the section. If not present, the CTA will be the "View Full Calendar" link.',
       type: 'string',
-      validation: (Rule) => Rule.required(),
     },
   ],
 });

@@ -1,9 +1,9 @@
-import { defineCliConfig } from 'sanity/cli';
+import {defineCliConfig} from 'sanity/cli'
 
 export default defineCliConfig({
   api: {
-    projectId: 'xyk2gm36',
-    dataset: 'production',
+    projectId: 'f59o0jjn',
+    dataset: 'production'
   },
   deployment: {
     /**
@@ -11,11 +11,5 @@ export default defineCliConfig({
      * Learn more at https://www.sanity.io/docs/studio/latest-version-of-sanity#k47faf43faf56
      */
     autoUpdates: true,
-    appId: 'tpxam9dkidvdgv0znzmxct79',
-  },
-  typegen: {
-    path: '../www/lib/sanity/queries.ts',
-    schema: './schema.json',
-    generates: '../www/lib/sanity/types.ts',
-  },
-});
+  }
+})

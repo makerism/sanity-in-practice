@@ -22,12 +22,12 @@ const Event = Sanity.defineType({
       },
       validation: (Rule) => Rule.required(),
     },
-    {
-      name: 'metadata',
-      title: 'Metadata',
-      type: 'metadata',
-      validation: (Rule) => Rule.required(),
-    },
+    // {
+    //   name: 'metadata',
+    //   title: 'Metadata',
+    //   type: 'metadata',
+    //   validation: (Rule) => Rule.required(),
+    // },
     {
       name: 'startsAt',
       title: 'Start Time',
@@ -66,6 +66,9 @@ const Event = Sanity.defineType({
       name: 'coverImage',
       title: 'Cover Image',
       type: 'image',
+      options: {
+        hotspot: true,
+      },
       validation: (Rule) => Rule.required(),
     },
   ],

@@ -14,9 +14,10 @@ const Settings = Sanity.defineType({
   fields: [
     {
       name: 'title',
-      description: 'The title of the site',
       title: 'Title',
+      description: 'The title of the site',
       type: 'string',
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'description',

@@ -91,12 +91,12 @@ const Article = Sanity.defineType({
       group: 'content',
       validation: (Rule) => Rule.required(),
     },
-    {
-      name: 'metadata',
-      title: 'Metadata',
-      type: 'metadata',
-      group: 'settings',
-    },
+    // {
+    //   name: 'metadata',
+    //   title: 'Metadata',
+    //   type: 'metadata',
+    //   group: 'settings',
+    // },
   ],
 });
 

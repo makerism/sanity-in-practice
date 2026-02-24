@@ -5,9 +5,7 @@ import EventCategory from './event-category';
 import Page from './page';
 import Person from './person';
 import Metadata from './metadata';
-import RichImage from './rich-image';
 import Settings from './settings';
-import Tag from './tag';
 
 import * as Link from './link';
 import * as RichText from './rich-text';
@@ -23,13 +21,11 @@ const Schemas = [
   Metadata,
   Page,
   Person,
-  Tag,
   Settings,
   RichText.Base,
   RichText.Simple,
   RichText.Standard,
   RichText.WithImages,
-  RichImage,
   Sections.default,
   Sections.CenteredImage,
   Sections.FullWidthImage,

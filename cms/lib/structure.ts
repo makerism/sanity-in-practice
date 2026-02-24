@@ -20,15 +20,13 @@ const structure: SanityStructure.StructureResolver = (S) => {
         .icon(Icons.Announcement)
         .child(S.documentTypeList('announcement')),
 
-      S.divider(),
-
       S.listItem().title('Articles').icon(Icons.Article).child(S.documentTypeList('article')),
 
       S.listItem().title('Pages').icon(Icons.Page).child(S.documentTypeList('page')),
 
       S.listItem().title('People').icon(Icons.Person).child(S.documentTypeList('person')),
 
-      S.listItem().title('Tags').icon(Icons.Tag).child(S.documentTypeList('tag')),
+      // S.listItem().title('Tags').icon(Icons.Tag).child(S.documentTypeList('tag')),
 
       S.divider(),
 
